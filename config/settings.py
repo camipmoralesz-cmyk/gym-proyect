@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'apps.usuarios',
     'apps.core',
-    'apps.registros',
+    'apps.registro_horas',
+    'apps.catalogo'
 ]
 
 MIDDLEWARE = [
