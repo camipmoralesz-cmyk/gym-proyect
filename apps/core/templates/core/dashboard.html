@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard Core | Gimnasio Retro{% endblock %}
+
+{% block content %}
+<!-- Cabecera de la sección -->
+<div class="row mb-4">
+    <div class="col-12">
+        <h2 class="fw-bold text-body">Dashboard Administrativo</h2>
+        <p class="text-secondary">Supervisión general del gimnasio, estadísticas rápidas y gestión de la portada institucional.</p>
+    </div>
+</div>
+
+<!-- TARJETAS DE MÉTRICAS RÁPIDAS (KPIs) -->
+<div class="row g-4 mb-4">
+    <div class="col-md-3">
+        <div class="card card-custom p-3 shadow-sm">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h6 class="text-secondary mb-1">Usuarios Activos</h6>
+                    <h3 class="fw-bold text-body mb-0">0</h3> <!-- NO SE HAN AGREGADO DATOS -->
+                </div>
+                <div class="fs-1 text-accent"><i class="bi bi-people"></i></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card card-custom p-3 shadow-sm">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h6 class="text-secondary mb-1">Membresías por Vencer</h6>
+                    <h3 class="fw-bold text-warning mb-0">0</h3> <!-- NO SE HAN AGREGADO DATOS -->
+                </div>
+                <div class="fs-1 text-warning"><i class="bi bi-exclamation-triangle"></i></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card card-custom p-3 shadow-sm">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h6 class="text-secondary mb-1">Máquinas Operativas</h6>
+                    <h3 class="fw-bold text-success mb-0">0/0</h3> <!-- NO SE HAN AGREGADO DATOS -->
+                </div>
+                <div class="fs-1 text-success"><i class="bi bi-cpu"></i></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card card-custom p-3 shadow-sm">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h6 class="text-secondary mb-1">Ofertas Horas Valle</h6>
+                    <h3 class="fw-bold text-accent mb-0", style="font-size: 27px;">0 Activas</h3> <!-- NO SE HAN AGREGADO DATOS -->
+                </div>
+                <div class="fs-1 text-accent"><i class="bi bi-tag"></i></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SECCIÓN DE EDICIÓN DE PORTADA E INFORMACIÓN INSTITUCIONAL -->
+<div class="row g-4">
+    <!-- Formulario de Configuración de Portada -->
+    <div class="col-lg-8">
+        <div class="card card-custom p-4">
+            <h5 class="fw-bold mb-3 text-accent"><i class="bi bi-pencil-square"></i> Editar Información Institucional</h5>
+            <form>
+                <div class="mb-3">
+                    <label class="form-label text-secondary">Título Principal de la Portada</label>
+                    <input type="text" class="form-control form-control border-secondary" value="Gimnasio Fitness Retro Chillán">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label text-secondary">Horarios de Atención Institucional</label>
+                    <input type="text" class="form-control form-control border-secondary" value="Lunes a Viernes: 06:30 - 22:30 | Sábados: 09:00 - 19:00">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label text-secondary">Anuncio o Banner Destacado (Ej: Día de prueba gratis)</label>
+                    <textarea class="form-control form-control border-secondary" rows="3"></textarea>
+                </div>
+                <button type="button" class="btn btn-warning fw-semibold px-4"><i class="bi bi-save"></i> Guardar Cambios</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Panel de Accesos Rápidos y Alertas del Sistema -->
+    <div class="col-lg-4">
+        <div class="card card-custom p-4 h-100">
+            <h5 class="fw-bold mb-3 text-accent"><i class="bi bi-bell-fill"></i> Alertas y Accesos</h5>
+            <ul class="list-group list-group-flush bg-transparent">
+                <li class="list-group-item bg-transparent text-body border-secondary d-flex justify-content-between align-items-center">
+                    <span style="font-size: 15px;">Renovaciones pendientes</span>
+                    <span class="badge bg-warning text-dark">0</span>
+                </li>
+                <li class="list-group-item bg-transparent text-body border-secondary d-flex justify-content-between align-items-center">
+                    <span style="font-size: 15px;">Reportes de máquinas</span>
+                    <span class="badge bg-danger">0</span>
+                </li>
+                <li class="list-group-item bg-transparent text-body border-secondary d-flex justify-content-between align-items-center">
+                    <span style="font-size: 15px;">Nuevos registros hoy</span>
+                    <span class="badge bg-success">0</span>
+                </li>
+            </ul>
+            <div class="mt-auto pt-3">
+                <button class="btn btn-outline-body w-100 border-secondary"><i class="bi bi-arrow-clockwise"></i> Sincronizar Datos</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
