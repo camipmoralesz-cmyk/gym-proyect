@@ -7,7 +7,7 @@
 <div class="row mb-4">
     <div class="col-12">
         <h2 class="fw-bold text-body">Dashboard Administrativo</h2>
-        <p class="text-secondary">Supervisión general del gimnasio, estadísticas rápidas y gestión de la portada institucional.</p>
+        <p class="text-secondary">Supervisión general del gimnasio y estadísticas rápidas.</p>
     </div>
 </div>
 
@@ -59,50 +59,82 @@
     </div>
 </div>
 
-<!-- SECCIÓN DE EDICIÓN DE PORTADA E INFORMACIÓN INSTITUCIONAL -->
+<!-- SECCIÓN DE CLIENTES REGISTRADOS Y ALERTAS (Lado a lado) -->
 <div class="row g-4">
-    <!-- Formulario de Configuración de Portada -->
+    <!-- Tabla de Clientes -->
     <div class="col-lg-8">
-        <div class="card card-custom p-4">
-            <h5 class="fw-bold mb-3 text-accent"><i class="bi bi-pencil-square"></i> Editar Información Institucional</h5>
-            <form>
-                <div class="mb-3">
-                    <label class="form-label text-secondary">Título Principal de la Portada</label>
-                    <input type="text" class="form-control form-control border-secondary" value="Gimnasio Fitness Retro Chillán">
-                </div>
-                <div class="mb-3">
-                    <label class="form-label text-secondary">Horarios de Atención Institucional</label>
-                    <input type="text" class="form-control form-control border-secondary" value="Lunes a Viernes: 06:30 - 22:30 | Sábados: 09:00 - 19:00">
-                </div>
-                <div class="mb-3">
-                    <label class="form-label text-secondary">Anuncio o Banner Destacado (Ej: Día de prueba gratis)</label>
-                    <textarea class="form-control form-control border-secondary" rows="3"></textarea>
-                </div>
-                <button type="button" class="btn btn-warning fw-semibold px-4"><i class="bi bi-save"></i> Guardar Cambios</button>
-            </form>
+        <div class="card card-custom p-4 h-100">
+            <h4 class="fw-bold mb-3 text-accent">Clientes registrados</h4>
+            
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th>Nombre y Apellido</th>
+                            <th>RUT</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                     <!-- Estado vacío para clientes en el Dashboard
+                    <tbody>
+                       
+                        <tr>
+                            <td>Carlos Pérez</td>
+                            <td>18.234.567-8</td>
+                            <td><span class="badge bg-success">Al día</span></td>
+                        </tr>
+                      
+                        <tr>
+                            <td>María González</td>
+                            <td>19.876.543-2</td>
+                            <td><span class="badge bg-danger">Pago atrasado</span></td>
+                        </tr>
+                     
+                        <tr>
+                            <td>Juan Soto</td>
+                            <td>17.456.789-K</td>
+                            <td><span class="badge bg-warning text-dark">Día de pago cerca</span></td>
+                        </tr>
+                      
+                        <tr>
+                            <td>Ana Muñoz</td>
+                            <td>20.123.456-9</td>
+                            <td><span class="badge bg-secondary">Inactivo</span></td>
+                        </tr>
+                    </tbody> -->
+
+                </table>
+                                    <!-- Estado vacío para clientes en el Dashboard -->
+                    <div class="text-center py-4 border border-secondary rounded bg-body text-body">
+                        <i class="bi bi-people fs-2 mb-2 d-block"></i>
+                        <p class="mb-1 fw-semibold text-body">No se han registrado clientes</p>
+                        <small class="text-muted">Los socios inscritos aparecerán listados en esta sección.</small>
+                    </div>
+            </div>
         </div>
     </div>
-
-    <!-- Panel de Accesos Rápidos y Alertas del Sistema -->
+    
+    
+    <!-- Panel de Alertas y Accesos (Ocupa las 4 columnas restantes al lado) -->
     <div class="col-lg-4">
         <div class="card card-custom p-4 h-100">
             <h5 class="fw-bold mb-3 text-accent"><i class="bi bi-bell-fill"></i> Alertas y Accesos</h5>
             <ul class="list-group list-group-flush bg-transparent">
                 <li class="list-group-item bg-transparent text-body border-secondary d-flex justify-content-between align-items-center">
-                    <span style="font-size: 15px;">Renovaciones pendientes</span>
-                    <span class="badge bg-warning text-dark">0</span>
+                    <span>Renovaciones pendientes</span>
+                    <span class="badge text-warning border border-warning bg-transparent">0</span>
                 </li>
                 <li class="list-group-item bg-transparent text-body border-secondary d-flex justify-content-between align-items-center">
                     <span style="font-size: 15px;">Reportes de máquinas</span>
-                    <span class="badge bg-danger">0</span>
+                    <span class="badge text-danger border border-danger bg-transparent">0</span>
                 </li>
                 <li class="list-group-item bg-transparent text-body border-secondary d-flex justify-content-between align-items-center">
                     <span style="font-size: 15px;">Nuevos registros hoy</span>
-                    <span class="badge bg-success">0</span>
+                    <span class="badge text-primary border border-primary bg-transparent">0</span>
                 </li>
             </ul>
             <div class="mt-auto pt-3">
-                <button class="btn btn-outline-body w-100 border-secondary"><i class="bi bi-arrow-clockwise"></i> Sincronizar Datos</button>
+                <button class="btn btn-outline-warning w-100 border-secondary"><i class="bi bi-arrow-clockwise"></i> Sincronizar Datos</button>
             </div>
         </div>
     </div>
