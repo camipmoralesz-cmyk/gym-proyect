@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container-fluid px-4">
+    <!-- Cabecera de la sección -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold text-body mb-1">Editar Máquina</h2>
+            <p class="text-secondary small mb-0">Modifique los datos del equipo seleccionado en el catálogo.</p>
+        </div>
+        <div>
+            <a href="{% url 'catalogo:gestion_maquinas' %}" class="btn btn-outline-secondary btn-sm">
+                <i class="bi bi-arrow-left me-1"></i> Volver al Catálogo
+            </a>
+        </div>
+    </div>
+
+    <!-- Formulario de Edición -->
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card card-custom p-4 p-md-5 shadow-sm border-secondary">
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    
+                    <!-- Nombre de la Máquina (Con un valor de ejemplo precargado) -->
+                    <div class="mb-3">
+                        <label class="form-label text-secondary small fw-semibold">Nombre de la Máquina</label>
+                        <input type="text" name="nombre" class="form-control bg-transparent text-body border-secondary" value="Trotadora Profesional Pro" required>
+                    </div>
+
+                    <!-- Descripción -->
+                    <div class="mb-3">
+                        <label class="form-label text-secondary small fw-semibold">Descripción</label>
+                        <textarea name="descripcion" class="form-control bg-transparent text-body border-secondary" rows="3" required>Equipo cardiovascular de alto rendimiento con inclinación electrónica regulable.</textarea>
+                    </div>
+
+                    <!-- Instrucciones de Uso -->
+                    <div class="mb-3">
+                        <label class="form-label text-secondary small fw-semibold">Instrucciones de Uso</label>
+                        <textarea name="instrucciones" class="form-control bg-transparent text-body border-secondary" rows="3" required>Subir con precaución, ajustar la velocidad de forma progresiva y asegurar el clip de seguridad.</textarea>
+                    </div>
+
+                    <div class="row">
+                        <!-- Estado Operativo -->
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label text-secondary small fw-semibold">Estado Operativo</label>
+                            <select name="estado" class="form-select bg-transparent text-body border-secondary">
+                                <option value="disponible" selected class="bg-dark text-light">Disponible</option>
+                                <option value="no_disponible" class="bg-dark text-light">No Disponible / En Mantención</option>
+                            </select>
+                        </div>
+
+                        <!-- Carga de Imagen -->
+                        <div class="col-md-6 mb-4">
+                            <label class="form-label text-secondary small fw-semibold">Actualizar Fotografía</label>
+                            <input type="file" name="imagen" class="form-control form-control-sm bg-transparent text-body border-secondary py-2" accept="image/*">
+                            <div class="form-text text-muted small">Seleccione una nueva imagen si desea reemplazar la actual.</div>
+                        </div>
+                    </div>
+
+                    <!-- Botones de Acción -->
+                    <div class="d-flex justify-content-end gap-2 pt-3 border-top border-secondary">
+                        <a href="{% url 'catalogo:gestion_maquinas' %}" class="btn btn-outline-secondary px-4">Cancelar</a>
+                        <button type="submit" class="btn btn-warning-retro px-4 fw-semibold">Guardar Cambios</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

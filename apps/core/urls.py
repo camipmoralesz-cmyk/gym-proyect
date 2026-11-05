@@ -1,0 +1,9 @@
+from django.urls import path
+from .views import admin_login_view, dashboard_core_view
+
+app_name = 'core'
+
+urlpatterns = [
+    path('', admin_login_view, name='login'),               
+    path('dashboard/', dashboard_core_view, name='dashboard'), 
+]

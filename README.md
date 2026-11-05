@@ -1,6 +1,6 @@
 # gym-proyect
 
-## Nombre de la Organización o Plataforma: GymProject
+## Nombre de la Organización o Plataforma: Gimnasio Fitness Retro
 
 ## Modelo de Negocio / Giro: Centro de acondicionamiento físico y entrenamiento presencial
 

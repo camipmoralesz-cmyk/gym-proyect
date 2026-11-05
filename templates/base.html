@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Panel Admin | Fitness Retro{% endblock %}</title>
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <!-- Estilos personalizados basados en la identidad visual del Gimnasio -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+    <!-- SIDEBAR DE NAVEGACIÓN ADMINISTRATIVA -->
+    <nav class="sidebar d-flex flex-column justify-content-between">
+        <div>
+            <div class="sidebar-brand">
+                <div>
+                    <img src="{% static 'img/logo_gym.jpg' %}" alt="Logo" class="rounded-circle" width="60" height="60" style="object-fit: cover;">
+                </div>
+                <i></i> FITNESS RETRO CHILLÁN
+            </div>
+            <ul class="nav flex-column mt-3">
+                <li class="nav-item">
+                    <a href="{% url 'core:dashboard' %}" class="nav-link {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
+                        <i class="bi bi-speedometer2"></i> Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link"><i class="bi bi-people-fill"></i> Gestión de Usuarios</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'catalogo:gestion_maquinas' %}" class="nav-link {% if request.resolver_match.url_name == 'gestion_maquinas' %}active{% endif %}">
+                        <i class="bi bi-cpu"></i> Catálogo de Máquinas
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link"><i class="bi bi-activity"></i> Gestión de Rutinas</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link"><i class="bi bi-basket2-fill"></i> Consejos Alimenticios</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link"><i class="bi bi-cash-coin"></i> Pagos y Renovaciones</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link"><i class="bi bi-calendar-check-fill"></i> Inscripciones y Horarios</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link"><i class="bi bi-tag-fill"></i> Ofertas Horas Valle</a>
+                </li>
+            </ul>
+        </div>
+        <div class="p-3 border-top border-secondary text-center text-muted small">
+            Admin Panel v1.0
+        </div>
+    </nav>
+
+    <!-- CONTENEDOR PRINCIPAL -->
+    <div class="main-content">
+        
+    <!-- TOP NAVBAR -->
+    <div class="d-flex justify-content-between align-items-center top-navbar mb-4 rounded shadow-sm">
+        <span class="fw-semibold text-accent"><i class="bi bi-person-badge"></i> Panel Administrativo</span>
+        
+        <div class="d-flex align-items-center gap-3">
+            <!-- BOTÓN DE CAMBIO DE TEMA (CLARO / OSCURO) -->
+            <button id="btn-theme-toggle" class="btn btn-sm btn-outline-warning border-secondary" title="Cambiar modo claro/oscuro">
+                <i class="bi bi-moon-fill" id="theme-icon"></i>
+            </button>
+
+            <!-- BOTÓN DE CERRAR SESIÓN (Sin text-light fijo para que se adapte) -->
+            <a href="{% url 'core:login' %}" class="btn btn-sm btn-outline-warning border-secondary">
+                <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
+            </a>
+        </div>
+    </div>
+
+        <!-- BLOQUE DINÁMICO PARA LAS VISTAS DE DJANGO -->
+        <div class="container-fluid px-0">
+            {% block content %}
+            <!-- El contenido específico de cada vista irá aquí -->
+            {% endblock %}
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    {% block extra_js %}{% endblock %}
+
+    <!-- Script global para alternar y recordar el Modo Oscuro/Claro -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const themeToggleBtn = document.getElementById('btn-theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        const htmlElement = document.documentElement;
+
+        // Cargar preferencia guardada previa en el navegador
+        const savedTheme = localStorage.getItem('gym_theme') || 'dark';
+        htmlElement.setAttribute('data-bs-theme', savedTheme);
+        updateIcon(savedTheme);
+
+        if (themeToggleBtn) {
+            themeToggleBtn.addEventListener('click', () => {
+                const currentTheme = htmlElement.getAttribute('data-bs-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+                htmlElement.setAttribute('data-bs-theme', newTheme);
+                localStorage.setItem('gym_theme', newTheme);
+                updateIcon(newTheme);
+            });
+        }
+
+        function updateIcon(theme) {
+            if (!themeIcon) return;
+            if (theme === 'dark') {
+                themeIcon.classList.remove('bi-sun-fill');
+                themeIcon.classList.add('bi-moon-fill');
+            } else {
+                themeIcon.classList.remove('bi-moon-fill');
+                themeIcon.classList.add('bi-sun-fill');
+            }
+        }
+    });
+</script>
+</body>
+</html>
