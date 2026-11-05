@@ -178,9 +178,42 @@
         </div>
     </div>
 </div>
+
+<!-- Script de Validación de Selección -->
+<script>
+    function haySeleccion() {
+        const checks = document.querySelectorAll('.chk-horario');
+        return Array.from(checks).some(chk => chk.checked);
+    }
+
+    function mostrarAlerta() {
+        const alerta = document.getElementById('alertaSeleccion');
+        alerta.classList.remove('d-none');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function cerrarAlerta() {
+        document.getElementById('alertaSeleccion').classList.add('d-none');
+    }
+
+    function validarEditar() {
+        if (haySeleccion()) {
+            cerrarAlerta();
+            window.location.href = "{% url 'registro_horas:editar_horario' 1 %}";
+        } else {
+            mostrarAlerta();
+        }
+    }
+
+    function validarEliminar() {
+        if (haySeleccion()) {
+            cerrarAlerta();
+            const modal = new bootstrap.Modal(document.getElementById('modalEliminarHorario'));
+            modal.show();
+        } else {
+            mostrarAlerta();
+        }
+    }
+</script>
 {% endblock %}
 
-{% block extra_js %}
-<!-- Vinculamos el archivo JS externo desde la carpeta static -->
-<script src="{% static 'js/funciones.js' %}"></script>
-{% endblock %}
