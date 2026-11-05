@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container-fluid px-4">
+    <!-- Cabecera de la sección -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold text-body mb-1">Agregar Nuevo Horario</h2>
+            <p class="text-secondary small mb-0">Defina el día, el rango de horas y el límite de cupos para el gimnasio.</p>
+        </div>
+        <div>
+            <a href="{% url 'registro_horas:lista_horarios' %}" class="btn btn-outline-secondary btn-sm">
+                <i class="bi bi-arrow-left me-1"></i> Volver al Calendario
+            </a>
+        </div>
+    </div>
+
+    <!-- Formulario de Creación de Horarios -->
+    <div class="row justify-content-center">
+        <div class="col-lg-7 col-md-9">
+            <div class="card card-custom p-4 p-md-5 shadow-sm border-secondary">
+                <form method="POST">
+                    {% csrf_token %}
+
+                    <!-- Selección del Día de la Semana -->
+                    <div class="mb-3">
+                        <label class="form-label text-secondary small fw-semibold">Día de la Semana</label>
+                        <select name="dia" class="form-select bg-transparent text-body border-secondary" required>
+                            <option value="" disabled selected class="bg-dark text-light">Seleccione un día...</option>
+                            <option value="lunes" class="bg-dark text-light">Lunes</option>
+                            <option value="martes" class="bg-dark text-light">Martes</option>
+                            <option value="miercoles" class="bg-dark text-light">Miércoles</option>
+                            <option value="jueves" class="bg-dark text-light">Jueves</option>
+                            <option value="viernes" class="bg-dark text-light">Viernes</option>
+                            <option value="sabado" class="bg-dark text-light">Sábado</option>
+                            <option value="domingo" class="bg-dark text-light">Domingo</option>
+                        </select>
+                    </div>
+
+                    <div class="row">
+                        <!-- Hora de Inicio -->
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label text-secondary small fw-semibold">Hora de Inicio</label>
+                            <input type="time" name="hora_inicio" class="form-control bg-transparent text-body border-secondary" required>
+                        </div>
+
+                        <!-- Hora de Término -->
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label text-secondary small fw-semibold">Hora de Término</label>
+                            <input type="time" name="hora_fin" class="form-control bg-transparent text-body border-secondary" required>
+                        </div>
+                    </div>
+
+                    <!-- Capacidad Máxima (Cupos Totales) -->
+                    <div class="mb-4">
+                        <label class="form-label text-secondary small fw-semibold">Capacidad Máxima de Persona(s)</label>
+                        <input type="number" name="capacidad_maxima" class="form-control bg-transparent text-body border-secondary" min="1" max="100" placeholder="Ej. 15" required>
+                        <div class="form-text text-muted small">Cantidad límite de reservas permitidas para esta franja horaria.</div>
+                    </div>
+
+                    <!-- Botones de Acción -->
+                    <div class="d-flex justify-content-end gap-2 pt-3 border-top border-secondary">
+                        <a href="{% url 'registro_horas:lista_horarios' %}" class="btn btn-outline-secondary px-4">Cancelar</a>
+                        <button type="submit" class="btn btn-warning-retro px-4 fw-semibold">Guardar Horario</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

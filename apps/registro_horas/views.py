@@ -11,3 +11,7 @@ def detalle_horario(request, pk):
 def crear_horario(request):
     # Vista para crear un nuevo bloque horario/cupos
     return render(request, 'registro_horas/horarios_form.html')
+
+def editar_horario(request, pk):
+    # Vista visual para editar un bloque horario existente
+    return render(request, 'registro_horas/horarios_editar.html')
