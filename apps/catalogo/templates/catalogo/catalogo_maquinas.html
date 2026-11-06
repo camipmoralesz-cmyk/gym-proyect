@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container-fluid px-4">
+    <!-- Cabecera de la sección -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold text-body mb-1">Catálogo de Máquinas</h2>
+            <p class="text-secondary small mb-0">Gestión y visualización del equipamiento deportivo del gimnasio.</p>
+        </div>
+        <div>
+            <a href="{% url 'catalogo:crear_maquina' %}" class="btn btn-warning-retro fw-semibold px-3 py-2">
+                <i class="bi bi-plus-circle me-1"></i> Agregar Nueva Máquina
+            </a>
+        </div>
+    </div>
+
+    <!-- Cuadrícula Dinámica del Catálogo -->
+    <div class="row g-4">
+        {% for maquina in maquinas %}
+        <div class="col-xl-6 col-lg-6 col-md-12">
+            <div class="card card-custom h-100 shadow-sm border-secondary">
+                <div class="row g-0 h-100">
+                    <!-- Espacio para la Imagen -->
+                    <div class="col-md-5 bg-body d-flex align-items-center justify-content-center rounded-start position-relative min-vh-200 p-0 overflow-hidden">
+                        {% if maquina.imagen %}
+                            <img src="{{ maquina.imagen }}" alt="{{ maquina.nombre }}" class="w-100 h-100 object-fit-cover">
+                        {% else %}
+                            <div class="text-secondary text-center p-3">
+                                <i class="bi bi-image fs-1 d-block mb-1"></i>
+                                <span class="small">Sin Imagen</span>
+                            </div>
+                        {% endif %}
+
+                        {% if maquina.estadoDisponible %}
+                            <span class="position-absolute top-0 start-0 m-2 badge bg-success">Disponible</span>
+                        {% else %}
+                            <span class="position-absolute top-0 start-0 m-2 badge bg-danger">No Disponible</span>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Información Dinámica de la Máquina -->
+                    <div class="col-md-7">
+                        <div class="card-body d-flex flex-column h-100">
+                            <h5 class="card-title fw-bold text-accent">{{ maquina.nombre }}</h5>
+                            <p class="card-text small text-secondary mb-2">
+                                <strong>Descripción:</strong> {{ maquina.descripcion|default:"Sin descripción registrada." }}
+                            </p>
+                            <p class="card-text small text-secondary mb-3">
+                                <strong>Instrucciones:</strong> {{ maquina.instruccionesUso|default:"Sin instrucciones registradas." }}
+                            </p>
+                            
+                            <!-- Botones de Acción: Editar / Eliminar -->
+                            <div class="mt-auto d-flex gap-2 pt-2 border-top border-secondary">
+                                <a href="{% url 'catalogo:editar_maquina' maquina.idMaquina %}" class="btn btn-sm btn-outline-warning w-50">
+                                    <i class="bi bi-pencil-square"></i> Editar
+                                </a>
+                                <!-- Botón que activa el modal específico de esta máquina -->
+                                <button type="button" class="btn btn-sm btn-outline-danger w-50" data-bs-toggle="modal" data-bs-target="#modalEliminar{{ maquina.idMaquina }}">
+                                    <i class="bi bi-trash"></i> Eliminar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODAL DE CONFIRMACIÓN DE ELIMINACIÓN -->
+        <div class="modal fade" id="modalEliminar{{ maquina.idMaquina }}" tabindex="-1" aria-labelledby="modalEliminarLabel{{ maquina.idMaquina }}" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content card-custom border-secondary text-body">
+                    <div class="modal-header border-secondary">
+                        <h5 class="modal-title fw-bold text-danger" id="modalEliminarLabel{{ maquina.idMaquina }}">
+                            <i class="bi bi-exclamation-triangle-fill me-2"></i> Confirmar Eliminación
+                        </h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <!-- Formulario que envía la contraseña por POST -->
+                    <form action="{% url 'catalogo:eliminar_maquina' maquina.idMaquina %}" method="POST">
+                        {% csrf_token %}
+                        <div class="modal-body">
+                            <p class="mb-3">¿Estás seguro de eliminar la máquina <strong>{{ maquina.nombre }}</strong> del catálogo?</p>
+                            <div class="mb-2">
+                                <label class="form-label text-secondary small">Ingrese su contraseña de administrador:</label>
+                                <input type="password" name="password" class="form-control bg-transparent text-body border-secondary" placeholder="••••••••" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer border-secondary">
+                            <button type="button" class="btn btn-outline-secondary btn-sm px-3" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-danger btn-sm px-3 fw-semibold">Sí, eliminar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12 text-center py-5">
+            <div class="text-secondary">
+                <i class="bi bi-cpu fs-1 d-block mb-2"></i>
+                <p>No hay máquinas registradas en el catálogo actualmente.</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

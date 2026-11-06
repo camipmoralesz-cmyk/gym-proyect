@@ -5,67 +5,64 @@
     <!-- Cabecera de la sección -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h2 class="fw-bold text-body mb-1">Agregar Nueva Máquina</h2>
-            <p class="text-secondary small mb-0">Complete los datos para registrar un nuevo equipo en el catálogo del gimnasio.</p>
+            <h2 class="fw-bold text-body mb-1">Nueva Máquina</h2>
+            <p class="text-secondary small mb-0">Formulario de registro para agregar un equipo deportivo al catálogo.</p>
         </div>
         <div>
-            <a href="{% url 'catalogo:gestion_maquinas' %}" class="btn btn-outline-secondary btn-sm">
+            <a href="{% url 'catalogo:gestion_maquinas' %}" class="btn btn-outline-secondary btn-sm px-3">
                 <i class="bi bi-arrow-left me-1"></i> Volver al Catálogo
             </a>
         </div>
     </div>
 
-    <!-- Formulario de Creación -->
-    <div class="row justify-content-center">
-        <div class="col-lg-8">
-            <div class="card card-custom p-4 p-md-5 shadow-sm border-secondary">
-                <form method="POST" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    
-                    <!-- Nombre de la Máquina -->
-                    <div class="mb-3">
+    <!-- Tarjeta del Formulario -->
+    <div class="card card-custom border-secondary shadow-sm">
+        <div class="card-body p-4">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                <div class="row g-3">
+                    <!-- Nombre de la máquina -->
+                    <div class="col-md-12">
                         <label class="form-label text-secondary small fw-semibold">Nombre de la Máquina</label>
-                        <input type="text" name="nombre" class="form-control bg-transparent text-body border-secondary" placeholder="Ej. Prensa de Piernas 45°" required>
+                        <input type="text" name="nombre" class="form-control bg-transparent text-body border-secondary" placeholder="Ej. Trotadora Profesional Pro" required>
                     </div>
 
                     <!-- Descripción -->
-                    <div class="mb-3">
+                    <div class="col-md-12">
                         <label class="form-label text-secondary small fw-semibold">Descripción</label>
-                        <textarea name="descripcion" class="form-control bg-transparent text-body border-secondary" rows="3" placeholder="Describa brevemente el equipo y sus características..." required></textarea>
+                        <textarea name="descripcion" rows="3" class="form-control bg-transparent text-body border-secondary" placeholder="Detalles y características principales del equipo..."></textarea>
                     </div>
 
                     <!-- Instrucciones de Uso -->
-                    <div class="mb-3">
+                    <div class="col-md-12">
                         <label class="form-label text-secondary small fw-semibold">Instrucciones de Uso</label>
-                        <textarea name="instrucciones" class="form-control bg-transparent text-body border-secondary" rows="3" placeholder="Indique los pasos o precauciones para utilizar la máquina..." required></textarea>
+                        <textarea name="instruccionesUso" rows="3" class="form-control bg-transparent text-body border-secondary" placeholder="Pasos o recomendaciones para utilizar la máquina correctamente..."></textarea>
                     </div>
 
-                    <div class="row">
-                        <!-- Estado (Disponible / No disponible) -->
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label text-secondary small fw-semibold">Estado Operativo</label>
-                            <select name="estado" class="form-select bg-transparent text-body border-secondary">
-                                <option value="disponible" class="bg-dark text-light">Disponible</option>
-                                <option value="no_disponible" class="bg-dark text-light">No Disponible / En Mantención</option>
-                            </select>
-                        </div>
-
-                        <!-- Carga de Imagen desde Archivos Locales (Estilizado limpio) -->
-                        <div class="col-md-6 mb-4">
-                            <label class="form-label text-secondary small fw-semibold">Fotografía de la Máquina</label>
-                            <input type="file" name="imagen" class="form-control form-control-sm bg-transparent text-body border-secondary py-2" accept="image/*">
-                            <div class="form-text text-muted small">Seleccione una imagen desde sus archivos locales.</div>
-                        </div>
-                    </div>
+                    <!-- Estado Disponible / No Disponible -->
+                    <div class="col-md-6">
+                        <label class="form-label text-secondary small fw-semibold">Estado Operativo</label>
+                        <select name="estadoDisponible" class="form-select bg-body text-body border-secondary">
+                            <option value="True" selected>Disponible</option>
+                            <option value="False">No Disponible (En Mantención)</option>
+                        </select>
                     </div>
 
-                    <!-- Botones de Acción -->
-                    <div class="d-flex justify-content-end gap-2 pt-3 border-top border-secondary">
-                        <a href="{% url 'catalogo:gestion_maquinas' %}" class="btn btn-outline-secondary px-4">Cancelar</a>
-                        <button type="submit" class="btn btn-warning-retro px-4 fw-semibold">Guardar Máquina</button>
+                    <!-- Carga de Imagen desde Archivos Locales -->
+                    <div class="col-md-6">
+                        <label class="form-label text-secondary small fw-semibold">Imagen de la Máquina</label>
+                        <input type="file" name="imagen" class="form-control bg-transparent text-body border-secondary" accept="image/*">
+                        <div class="form-text text-secondary small">Selecciona una imagen desde tus archivos locales.</div>
                     </div>
-                </form>
-            </div>
+                </div>
+
+                <!-- Botones de Acción al Final -->
+                <div class="d-flex justify-content-end gap-2 pt-4 mt-4 border-top border-secondary">
+                    <a href="{% url 'catalogo:gestion_maquinas' %}" class="btn btn-outline-secondary px-4">Cancelar</a>
+                    <button type="submit" class="btn btn-warning-retro px-4 fw-semibold">Guardar Máquina</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
