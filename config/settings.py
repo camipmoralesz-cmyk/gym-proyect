@@ -16,7 +16,7 @@ from dotenv import load_dotenv
 from pathlib import Path
 from dotenv import load_dotenv
 
-
+#AGREGADO PARA FUNCIONALIDAD DE LA BASE DE DATOS
 load_dotenv()
 pymysql.install_as_MySQLdb()
 

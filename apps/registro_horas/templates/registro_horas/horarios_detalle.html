@@ -47,6 +47,7 @@
                             <small class="text-secondary">Bloque horario activo</small>
                         </div>
                     </div>
+
                     <!-- Insignia dinámica de cupos ocupados -->
                     <span class="badge bg-warning text-dark px-3 py-2 fw-semibold">
                         {{ h.cuposOcupados }} / {{ h.capacidadMaxima }} Cupos Ocupados
@@ -83,6 +84,7 @@
                 </div>
             </div>
             {% empty %}
+            
             <!-- Mensaje si no hay ningún horario registrado para este día -->
             <div class="card card-custom p-5 text-center border-secondary">
                 <i class="bi bi-calendar-x fs-1 text-secondary mb-2"></i>

@@ -4,6 +4,10 @@ from django.contrib.auth.decorators import login_required
 from .models import Horario
 from django.contrib.auth import authenticate
 
+
+#-------------------------------
+# PANTALLA PRINCIPAL
+#-------------------------------
 @login_required(login_url='login')
 def lista_horarios(request):
     # Obtenemos la fecha de referencia desde los parámetros GET (ej: ?fecha=2026-04-06)
@@ -53,6 +57,10 @@ def lista_horarios(request):
     }
     
     return render(request, 'registro_horas/horarios_lista.html', context)
+
+#-------------------------------
+#CREAR HORARIOS
+#-------------------------------
 @login_required(login_url='login')
 def crear_horario(request):
     if request.method == 'POST':
@@ -95,6 +103,9 @@ def crear_horario(request):
 
     return render(request, 'registro_horas/horarios_form.html')
 
+#-------------------------------
+#DETALLES DE LOS HORARIOS
+#-------------------------------
 @login_required(login_url='login')
 def detalle_horario(request, pk):
     # 1. Obtenemos el horario exacto al que le dio clic el administrador
@@ -114,6 +125,9 @@ def detalle_horario(request, pk):
     }
     return render(request, 'registro_horas/horarios_detalle.html', context)
 
+#-------------------------------
+#EDITAR UN HORARIO
+#-------------------------------
 @login_required(login_url='login')
 def editar_horario(request, pk):
     horario = get_object_or_404(Horario, pk=pk)
@@ -146,6 +160,9 @@ def editar_horario(request, pk):
     }
     return render(request, 'registro_horas/horario_editar.html', context)
 
+#-------------------------------
+#ELIMINAR HORARIO
+#-------------------------------
 @login_required(login_url='login')
 def eliminar_horario(request, pk):
     horario = get_object_or_404(Horario, pk=pk)

@@ -39,6 +39,7 @@
                     <small class="text-secondary" style="font-size: 0.7rem;">{{ lunes_fecha|date:"j \d\e M" }}</small>
                 </div>
                 <div class="card-body p-2 d-flex flex-column gap-2">
+                    
                     {% for h in lunes %}
                     <a href="{% url 'registro_horas:detalle_horario' h.idHorario %}" class="text-decoration-none">
                         <div class="p-2 rounded border border-secondary bg-body text-body shadow-sm">
