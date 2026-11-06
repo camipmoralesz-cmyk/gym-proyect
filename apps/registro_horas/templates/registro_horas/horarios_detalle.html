@@ -8,10 +8,14 @@
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
             <h2 class="fw-bold text-body mb-1">Detalle del Horario</h2>
-            <p class="text-secondary small mb-0">Gestión de cupos, asistencia y acciones del bloque seleccionado.</p>
+            <p class="text-secondary small mb-0">Gestión de cupos, asistencia y acciones de los bloques para este día.</p>
         </div>
-        <div>
-            <a href="{% url 'registro_horas:crear_horario' %}" class="btn btn-warning-retro fw-semibold px-3 py-2">
+        <div class="d-flex gap-2">
+            <a href="{% url 'registro_horas:lista_horarios' %}" class="btn btn-outline-secondary btn-sm px-2 py-2" >
+                <i class="bi bi-arrow-left me-1"></i> Volver al Calendario
+            </a>            
+            
+            <a style="font-size: 13px" href= "{% url 'registro_horas:crear_horario' %}" class="btn btn-warning-retro fw-semibold px-2 py-6">
                 <i class="bi bi-plus-circle me-1"></i> Agregar Nuevo Horario
             </a>
         </div>
@@ -26,99 +30,67 @@
 
     <div class="row g-4">
         
-        <!-- COLUMNA IZQUIERDA: Bloques idénticos -->
-        <div class="col-lg-8">
+        <!-- COLUMNA IZQUIERDA: Listado dinámico de todos los horarios de ese día -->
+        <div class="col-lg-8" id="contenedorBloques">
             
-            <!-- Bloque 1 -->
-            <div class="card card-custom p-4 border-secondary shadow-sm mb-4">
+            {% for h in horarios %}
+            <div class="card card-custom p-4 border-secondary shadow-sm mb-4 bloque-horario">
+                
+                <!-- Encabezado con el icono de calendario, el día y la fecha al lado -->
                 <div class="border-bottom border-secondary pb-3 mb-3 d-flex justify-content-between align-items-center">
                     <div class="d-flex align-items-center gap-3">
+                        <i class="bi bi-calendar-event fs-3 text-accent"></i>
                         <div>
-                            <h4 class="fw-bold text-accent mb-0"><i class="bi bi-calendar-event me-2"></i>Martes 7 de Abril, 2026</h4>
+                            <h4 class="fw-bold text-accent mb-0">
+                                {{ h.diaSemana }} {% if h.fecha %}{{ h.fecha|date:"j \d\e F, Y" }}{% endif %}
+                            </h4>
                             <small class="text-secondary">Bloque horario activo</small>
                         </div>
                     </div>
-                    <span class="badge bg-warning text-dark px-3 py-2 fw-semibold">10 / 15 Cupos Ocupados</span>
+                    <!-- Insignia dinámica de cupos ocupados -->
+                    <span class="badge bg-warning text-dark px-3 py-2 fw-semibold">
+                        {{ h.cuposOcupados }} / {{ h.capacidadMaxima }} Cupos Ocupados
+                    </span>
                 </div>
 
+                <!-- Detalles de horas reales extraídas de la BD -->
                 <div class="row mb-4 bg-dark bg-opacity-25 p-3 rounded border border-secondary">
                     <div class="col-md-4">
                         <small class="text-secondary d-block">Hora de Inicio</small>
-                        <span class="fw-bold text-body fs-5">09:00 hrs</span>
+                        <span class="fw-bold text-body fs-5">{{ h.horaInicio|time:"H:i" }} hrs</span>
                     </div>
                     <div class="col-md-4">
                         <small class="text-secondary d-block">Hora de Término</small>
-                        <span class="fw-bold text-body fs-5">10:30 hrs</span>
+                        <span class="fw-bold text-body fs-5">{{ h.horaFin|time:"H:i" }} hrs</span>
                     </div>
                     <div class="col-md-4">
                         <small class="text-secondary d-block">Capacidad Máxima</small>
-                        <span class="fw-bold text-body fs-5">15 personas</span>
+                        <span class="fw-bold text-body fs-5">{{ h.capacidadMaxima }} personas</span>
                     </div>
                 </div>
 
                 <h6 class="fw-bold text-body mb-3">Usuarios Asistentes (Inscritos)</h6>
-                <div class="list-group list-group-flush border border-secondary rounded overflow-hidden">
-                    <div class="list-group-item bg-transparent text-body border-secondary py-2 px-3 d-flex justify-content-between align-items-center">
-                        <span class="fw-semibold">Carlos Pérez</span>
-                        <span class="badge bg-success bg-opacity-10 text-success border border-success px-2">Confirmado</span>
-                    </div>
-                    <div class="list-group-item bg-transparent text-body border-secondary py-2 px-3 d-flex justify-content-between align-items-center">
-                        <span class="fw-semibold">María González</span>
-                        <span class="badge bg-success bg-opacity-10 text-success border border-success px-2">Confirmado</span>
+                <div class="list-group list-group-flush border border-secondary rounded overflow-hidden lista-asistentes">
+                    <div class="list-group-item bg-transparent text-body border-secondary py-2 px-3 d-flex justify-content-between align-items-center asistente-item">
+                        <span class="fw-semibold text-muted fst-italic">Sin usuarios inscritos actualmente</span>
+                        <span class="badge bg-secondary bg-opacity-10 text-secondary border border-secondary px-2">Pendiente</span>
                     </div>
                 </div>
 
-                <div class="form-check mt-3 pt-3 border-top"">
-                    <input class="form-check-input border-secondary chk-horario" type="checkbox" value="1" id="seleccionarBloque1">
-                    <label class="form-check-label text-secondary small" for="seleccionarBloque1">Seleccionar</label>
+                <div class="form-check mt-3 pt-3 border-top">
+                    <input class="form-check-input border-secondary chk-horario" type="checkbox" value="{{ h.idHorario }}" id="seleccionarBloque{{ h.idHorario }}">
+                    <label class="form-check-label text-secondary small" for="seleccionarBloque{{ h.idHorario }}">Seleccionar</label>
                 </div>
             </div>
-
-            <!-- Bloque 2 (Idéntico en estructura y tamaño) -->
-            <div class="card card-custom p-4 border-secondary shadow-sm mb-4">
-                <div class="border-bottom border-secondary pb-3 mb-3 d-flex justify-content-between align-items-center">
-                    <div class="d-flex align-items-center gap-3">
-                        
-                        <div>
-                            <h4 class="fw-bold text-accent mb-0"><i class="bi bi-calendar-event me-2"></i>Miércoles 8 de Abril, 2026</h4>
-                            <small class="text-secondary">Bloque horario activo</small>
-                        </div>
-                    </div>
-                    <span class="badge bg-warning text-dark px-3 py-2 fw-semibold">5 / 15 Cupos Ocupados</span>
-                </div>
-
-                <div class="row mb-4 bg-dark bg-opacity-25 p-3 rounded border border-secondary">
-                    <div class="col-md-4">
-                        <small class="text-secondary d-block">Hora de Inicio</small>
-                        <span class="fw-bold text-body fs-5">09:00 hrs</span>
-                    </div>
-                    <div class="col-md-4">
-                        <small class="text-secondary d-block">Hora de Término</small>
-                        <span class="fw-bold text-body fs-5">10:30 hrs</span>
-                    </div>
-                    <div class="col-md-4">
-                        <small class="text-secondary d-block">Capacidad Máxima</small>
-                        <span class="fw-bold text-body fs-5">15 personas</span>
-                    </div>
-                </div>
-
-                <h6 class="fw-bold text-body mb-3">Usuarios Asistentes (Inscritos)</h6>
-                <div class="list-group list-group-flush border border-secondary rounded overflow-hidden">
-                    <div class="list-group-item bg-transparent text-body border-secondary py-2 px-3 d-flex justify-content-between align-items-center">
-                        <span class="fw-semibold">Roberto Gómez</span>
-                        <span class="badge bg-success bg-opacity-10 text-success border border-success px-2">Confirmado</span>
-                    </div>
-                    <div class="list-group-item bg-transparent text-body border-secondary py-2 px-3 d-flex justify-content-between align-items-center">
-                        <span class="fw-semibold">Claudia Silva</span>
-                        <span class="badge bg-success bg-opacity-10 text-success border border-success px-2">Confirmado</span>
-                    </div>
-                </div>
-
-                <div class="form-check mt-3 pt-3 border-top"",>
-                    <input class="form-check-input border-secondary chk-horario" type="checkbox" value="1" id="seleccionarBloque1">
-                    <label class="form-check-label text-secondary small" for="seleccionarBloque1">Seleccionar</label>
-                </div>
+            {% empty %}
+            <!-- Mensaje si no hay ningún horario registrado para este día -->
+            <div class="card card-custom p-5 text-center border-secondary">
+                <i class="bi bi-calendar-x fs-1 text-secondary mb-2"></i>
+                <h5 class="fw-bold text-body">No hay horarios registrados para este día</h5>
+                <p class="text-secondary small mb-3">Puedes agregar un nuevo bloque usando el botón superior.</p>
+                <a href="{% url 'registro_horas:crear_horario' %}" class="btn btn-warning-retro btn-sm mx-auto px-4">Agregar Horario</a>
             </div>
+            {% endfor %}
 
         </div>
 
@@ -129,7 +101,7 @@
             <div class="card card-custom p-3 mb-4 border-secondary shadow-sm">
                 <h6 class="fw-bold text-body mb-3"><i class="bi bi-search me-2 text-accent"></i>Buscar por Usuario</h6>
                 <div class="mb-2">
-                    <input type="text" class="form-control bg-transparent text-body border-secondary form-control-sm" placeholder="Ingrese nombre o apellido...">
+                    <input type="text" id="inputBuscadorUsuarios" class="form-control bg-transparent text-body border-secondary form-control-sm" placeholder="Ingrese nombre o apellido...">
                 </div>
                 <small class="text-muted">Filtra en pantalla los horarios a los que asiste el usuario.</small>
             </div>
@@ -138,9 +110,7 @@
             <div class="card card-custom p-3 border-secondary shadow-sm">
                 <h6 class="fw-bold text-body mb-3"><i class="bi bi-gear me-2 text-accent"></i>Acciones de Clase</h6>
                 <div class="d-grid gap-2">
-                  
-                    <!-- Botón Editar con atributo data-url -->
-                    <button type="button" class="btn btn-outline-warning btn-sm text-start" data-url="{% url 'registro_horas:editar_horario' 1 %}" onclick="validarEditar(this)">
+                    <button type="button" class="btn btn-outline-warning btn-sm text-start" onclick="validarEditar()">
                         <i class="bi bi-pencil-square me-2"></i> Editar Horario Seleccionado
                     </button>
                     <button type="button" class="btn btn-outline-danger btn-sm text-start" onclick="validarEliminar()">
@@ -154,7 +124,7 @@
     </div>
 </div>
 
-<!-- Modal -->
+<!-- Modal de Confirmación -->
 <div class="modal fade" id="modalEliminarHorario" tabindex="-1" aria-labelledby="modalEliminarHorarioLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content card-custom border-secondary text-body">
@@ -168,52 +138,99 @@
                 <p class="mb-3">¿Está seguro de eliminar el bloque horario seleccionado?</p>
                 <div class="mb-3">
                     <label class="form-label text-secondary small">Ingrese su contraseña de administrador para confirmar:</label>
-                    <input type="password" class="form-control bg-transparent text-body border-secondary" placeholder="••••••••">
+                    <input type="password" id="adminPassword" class="form-control bg-transparent text-body border-secondary" placeholder="••••••••">
                 </div>
             </div>
             <div class="modal-footer border-secondary">
                 <button type="button" class="btn btn-outline-secondary btn-sm px-3" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-danger btn-sm px-3 fw-semibold">Sí, eliminar</button>
+                <button type="button" class="btn btn-danger btn-sm px-3 fw-semibold" onclick="ejecutarEliminacion()">Sí, eliminar</button>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Script de Validación de Selección -->
 <script>
-    function haySeleccion() {
-        const checks = document.querySelectorAll('.chk-horario');
-        return Array.from(checks).some(chk => chk.checked);
+    function obtenerIdsSeleccionados() {
+        const checks = document.querySelectorAll('.chk-horario:checked');
+        return Array.from(checks).map(chk => chk.value);
     }
 
     function mostrarAlerta() {
         const alerta = document.getElementById('alertaSeleccion');
-        alerta.classList.remove('d-none');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        if (alerta) {
+            alerta.classList.remove('d-none');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
     }
 
     function cerrarAlerta() {
-        document.getElementById('alertaSeleccion').classList.add('d-none');
+        const alerta = document.getElementById('alertaSeleccion');
+        if (alerta) {
+            alerta.classList.add('d-none');
+        }
     }
 
     function validarEditar() {
-        if (haySeleccion()) {
+        const seleccionados = obtenerIdsSeleccionados();
+        if (seleccionados.length > 0) {
             cerrarAlerta();
-            window.location.href = "{% url 'registro_horas:editar_horario' 1 %}";
+            window.location.href = `/horarios/editar/${seleccionados[0]}/`;
         } else {
             mostrarAlerta();
         }
     }
 
     function validarEliminar() {
-        if (haySeleccion()) {
+        const seleccionados = obtenerIdsSeleccionados();
+        if (seleccionados.length > 0) {
             cerrarAlerta();
-            const modal = new bootstrap.Modal(document.getElementById('modalEliminarHorario'));
-            modal.show();
+            const modalEl = document.getElementById('modalEliminarHorario');
+            if (modalEl) {
+                const modal = new bootstrap.Modal(modalEl);
+                modal.show();
+            }
         } else {
             mostrarAlerta();
         }
     }
+
+function ejecutarEliminacion() {
+    const passwordInput = document.getElementById('adminPassword');
+    const passwordVal = passwordInput ? passwordInput.value : '';
+    
+    if (!passwordVal) {
+        alert('Por favor, ingrese su contraseña de administrador.');
+        return;
+    }
+    
+    const seleccionados = obtenerIdsSeleccionados();
+    if (seleccionados.length > 0) {
+        const idHorario = seleccionados[0];
+        
+        // Creamos un formulario dinámico para enviar el POST seguro a Django
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = `/horarios/eliminar/${idHorario}/`;
+        
+        // Token CSRF de Django
+        const csrfToken = document.createElement('input');
+        csrfToken.type = 'hidden';
+        csrfToken.name = 'csrfmiddlewaretoken';
+        csrfToken.value = '{{ csrf_token }}';
+        form.appendChild(csrfToken);
+        
+        // Contraseña ingresada en el modal
+        const pwdInput = document.createElement('input');
+        pwdInput.type = 'hidden';
+        pwdInput.name = 'password';
+        pwdInput.value = passwordVal;
+        form.appendChild(pwdInput);
+        
+        document.body.appendChild(form);
+        form.submit();
+    }
+}
 </script>
+
 {% endblock %}
 
