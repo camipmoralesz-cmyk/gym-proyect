@@ -24,3 +24,9 @@ def registro_view(request):
         # Aquí procesarás los datos del registro más adelante
         return redirect('core:login') # Redirige al login tras enviar
     return render(request, 'core/registro.html')
+#Prueba para ver la baseCliente
+def test_cliente_view(request):
+    """
+    Vista temporal para revisar la base y el diseño del cliente.
+    """
+    return render(request, 'registro_horas/horarios.html')

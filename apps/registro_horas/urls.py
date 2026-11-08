@@ -9,3 +9,6 @@ urlpatterns = [
     path('nuevo/', views.crear_horario, name='crear_horario'),
     path('detalle/editar/<int:pk>/', views.editar_horario, name='editar_horario'),
 ]
+
+#esto es para lo del cliente
+#path('', views.lista_horarios, name='horarios'),
