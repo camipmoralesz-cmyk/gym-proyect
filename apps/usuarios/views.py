@@ -1,3 +1,4 @@
+from datetime import date
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.hashers import check_password
@@ -59,3 +60,10 @@ def perfil_view(request):
 
     usuario = Usuario.objects.get(idUsuario=request.session['usuario_id'])
     return render(request, 'usuarios/perfil.html', {'usuario': usuario})
+
+def gestion_usuarios_view(request):
+    usuarios = Usuario.objects.select_related('cliente', 'administrador')
+    return render(request, 'usuarios/gestion_usuarios.html', {
+        'usuarios': usuarios,
+        'hoy': date.today(),
+    })
