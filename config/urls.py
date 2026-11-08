@@ -23,4 +23,5 @@ urlpatterns = [
     path('', include('apps.core.urls')), 
     path('usuarios/', include('apps.usuarios.urls')),
     path('catalogo/', include('apps.catalogo.urls')),
+    path('horarios/', include('apps.registro_horas.urls')),
 ]
