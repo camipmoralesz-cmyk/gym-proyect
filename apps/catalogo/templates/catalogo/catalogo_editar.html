@@ -2,6 +2,7 @@
 
 {% block content %}
 <div class="container-fluid px-4">
+
     <!-- Cabecera de la sección -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
@@ -20,46 +21,55 @@
         <div class="col-lg-8">
             <div class="card card-custom p-4 p-md-5 shadow-sm border-secondary">
                 <form method="POST" enctype="multipart/form-data">
+
                     {% csrf_token %}
-                    
-                    <!-- Nombre de la Máquina (Con un valor de ejemplo precargado) -->
-                    <div class="mb-3">
-                        <label class="form-label text-secondary small fw-semibold">Nombre de la Máquina</label>
-                        <input type="text" name="nombre" class="form-control bg-transparent text-body border-secondary" value="Trotadora Profesional Pro" required>
-                    </div>
+                    <div class="row g-3">
+                        <!-- Nombre -->
+                        <div class="col-md-12">
+                            <label class="form-label text-secondary small fw-semibold">Nombre de la Máquina</label>
+                            <input type="text" name="nombre" value="{{ maquina.nombre|default:'' }}" class="form-control bg-transparent text-body border-secondary" required>
+                        </div>
 
-                    <!-- Descripción -->
-                    <div class="mb-3">
-                        <label class="form-label text-secondary small fw-semibold">Descripción</label>
-                        <textarea name="descripcion" class="form-control bg-transparent text-body border-secondary" rows="3" required>Equipo cardiovascular de alto rendimiento con inclinación electrónica regulable.</textarea>
-                    </div>
+                        <!-- Descripción -->
+                        <div class="col-md-12">
+                            <label class="form-label text-secondary small fw-semibold">Descripción</label>
+                            <textarea name="descripcion" rows="3" class="form-control bg-transparent text-body border-secondary">{{ maquina.descripcion|default:'' }}</textarea>
+                        </div>
 
-                    <!-- Instrucciones de Uso -->
-                    <div class="mb-3">
-                        <label class="form-label text-secondary small fw-semibold">Instrucciones de Uso</label>
-                        <textarea name="instrucciones" class="form-control bg-transparent text-body border-secondary" rows="3" required>Subir con precaución, ajustar la velocidad de forma progresiva y asegurar el clip de seguridad.</textarea>
-                    </div>
+                        <!-- Instrucciones -->
+                        <div class="col-md-12">
+                            <label class="form-label text-secondary small fw-semibold">Instrucciones de Uso</label>
+                            <textarea name="instruccionesUso" rows="3" class="form-control bg-transparent text-body border-secondary">{{ maquina.instruccionesUso|default:'' }}</textarea>
+                        </div>
 
-                    <div class="row">
-                        <!-- Estado Operativo -->
-                        <div class="col-md-6 mb-3">
+                        <!-- Estado -->
+                        <div class="col-md-6">
                             <label class="form-label text-secondary small fw-semibold">Estado Operativo</label>
-                            <select name="estado" class="form-select bg-transparent text-body border-secondary">
-                                <option value="disponible" selected class="bg-dark text-light">Disponible</option>
-                                <option value="no_disponible" class="bg-dark text-light">No Disponible / En Mantención</option>
+                            <select name="estadoDisponible" class="form-select bg-body text-body border-secondary">
+                                <option value="True" {% if maquina.estadoDisponible %}selected{% endif %}>Disponible</option>
+                                <option value="False" {% if maquina and not maquina.estadoDisponible %}selected{% endif %}>No Disponible (En Mantención)</option>
                             </select>
                         </div>
 
-                        <!-- Carga de Imagen -->
-                        <div class="col-md-6 mb-4">
-                            <label class="form-label text-secondary small fw-semibold">Actualizar Fotografía</label>
-                            <input type="file" name="imagen" class="form-control form-control-sm bg-transparent text-body border-secondary py-2" accept="image/*">
-                            <div class="form-text text-muted small">Seleccione una nueva imagen si desea reemplazar la actual.</div>
+                        <!-- Carga de Imagen y Opción de Eliminar -->
+                        <div class="col-md-6">
+                            <label class="form-label text-secondary small fw-semibold">Imagen de la Máquina</label>
+                            <input type="file" name="imagen" class="form-control bg-transparent text-body border-secondary" accept="image/*">
+                            
+                            {% if maquina.imagen %}
+                                <div class="form-text text-success small mt-1">Imagen actual registrada. Sube otra para reemplazarla.</div>
+                                <div class="form-check mt-2">
+                                    <input class="form-check-input bg-dark border-secondary" type="checkbox" name="eliminar_imagen" id="eliminarImagen">
+                                    <label class="form-check-label text-danger small" for="eliminarImagen">
+                                        Eliminar imagen actual
+                                    </label>
+                                </div>
+                            {% endif %}
                         </div>
                     </div>
 
-                    <!-- Botones de Acción -->
-                    <div class="d-flex justify-content-end gap-2 pt-3 border-top border-secondary">
+                    <!-- Botones -->
+                    <div class="d-flex justify-content-end gap-2 pt-4 mt-4 border-top border-secondary">
                         <a href="{% url 'catalogo:gestion_maquinas' %}" class="btn btn-outline-secondary px-4">Cancelar</a>
                         <button type="submit" class="btn btn-warning-retro px-4 fw-semibold">Guardar Cambios</button>
                     </div>

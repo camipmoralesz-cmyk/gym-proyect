@@ -18,7 +18,7 @@
             <div class="d-flex justify-content-between align-items-center">
                 <div>
                     <h6 class="text-secondary mb-1">Usuarios Activos</h6>
-                    <h3 class="fw-bold text-body mb-0">0</h3> <!-- NO SE HAN AGREGADO DATOS -->
+                    <h3 class="fw-bold text-body mb-0">{{ total_usuarios_activos }}</h3> 
                 </div>
                 <div class="fs-1 text-accent"><i class="bi bi-people"></i></div>
             </div>
@@ -29,7 +29,7 @@
             <div class="d-flex justify-content-between align-items-center">
                 <div>
                     <h6 class="text-secondary mb-1">Membresías por Vencer</h6>
-                    <h3 class="fw-bold text-warning mb-0">0</h3> <!-- NO SE HAN AGREGADO DATOS -->
+                    <h3 class="fw-bold text-warning mb-0">{{ membresias_por_vencer }}</h3> 
                 </div>
                 <div class="fs-1 text-warning"><i class="bi bi-exclamation-triangle"></i></div>
             </div>
@@ -40,7 +40,7 @@
             <div class="d-flex justify-content-between align-items-center">
                 <div>
                     <h6 class="text-secondary mb-1">Máquinas Operativas</h6>
-                    <h3 class="fw-bold text-success mb-0">0/0</h3> <!-- NO SE HAN AGREGADO DATOS -->
+                    <h3 class="fw-bold text-success mb-0">{{ maquinas_operativas }}</h3> 
                 </div>
                 <div class="fs-1 text-success"><i class="bi bi-cpu"></i></div>
             </div>
@@ -51,7 +51,7 @@
             <div class="d-flex justify-content-between align-items-center">
                 <div>
                     <h6 class="text-secondary mb-1">Ofertas Horas Valle</h6>
-                    <h3 class="fw-bold text-accent mb-0", style="font-size: 27px;">0 Activas</h3> <!-- NO SE HAN AGREGADO DATOS -->
+                    <h3 class="fw-bold text-accent mb-0", style="font-size: 27px;">{{ ofertas_activas }} Activas</h3> 
                 </div>
                 <div class="fs-1 text-accent"><i class="bi bi-tag"></i></div>
             </div>
@@ -75,41 +75,43 @@
                             <th>Estado</th>
                         </tr>
                     </thead>
-                     <!-- Estado vacío para clientes en el Dashboard
+                    
                     <tbody>
-                       
-                        <tr>
-                            <td>Carlos Pérez</td>
-                            <td>18.234.567-8</td>
-                            <td><span class="badge bg-success">Al día</span></td>
-                        </tr>
-                      
-                        <tr>
-                            <td>María González</td>
-                            <td>19.876.543-2</td>
-                            <td><span class="badge bg-danger">Pago atrasado</span></td>
-                        </tr>
-                     
-                        <tr>
-                            <td>Juan Soto</td>
-                            <td>17.456.789-K</td>
-                            <td><span class="badge bg-warning text-dark">Día de pago cerca</span></td>
-                        </tr>
-                      
-                        <tr>
-                            <td>Ana Muñoz</td>
-                            <td>20.123.456-9</td>
-                            <td><span class="badge bg-secondary">Inactivo</span></td>
-                        </tr>
-                    </tbody> -->
+                        {% for cliente in clientes_registrados %}
+            <tr class="border-b border-gray-800 hover:bg-gray-800/50 transition">
+                <td class="p-3 font-medium text-white">
+                    {% if cliente.first_name or cliente.last_name %}
+                        {{ cliente.first_name }} {{ cliente.last_name }}
+                    {% else %}
+                        {{ cliente.username }}
+                    {% endif %}
+                </td>
+                <td class="p-3 text-gray-400">{{ cliente.username }}</td>
+                <td class="p-3">
+                    {% if cliente.is_active %}
+                        <span class="px-2 py-1 text-xs bg-green-500/20 text-green-400 rounded-full border border-green-500/30">Activo</span>
+                    {% else %}
+                        <span class="px-2 py-1 text-xs bg-red-500/20 text-red-400 rounded-full border border-red-500/30">Inactivo</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="3" class="text-center py-8 text-gray-500">
+                    <div class="flex flex-col items-center justify-center space-y-2">
+                        <svg class="w-10 h-10 text-gray-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="0.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                        </svg>
+                        <p>No se han registrado clientes</p>
+                        <span class="text-xs text-gray-600">Los socios inscritos aparecerán listados en esta sección.</span>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+                    </tbody> 
 
                 </table>
-                                    <!-- Estado vacío para clientes en el Dashboard -->
-                    <div class="text-center py-4 border border-secondary rounded bg-body text-body">
-                        <i class="bi bi-people fs-2 mb-2 d-block"></i>
-                        <p class="mb-1 fw-semibold text-body">No se han registrado clientes</p>
-                        <small class="text-muted">Los socios inscritos aparecerán listados en esta sección.</small>
-                    </div>
+
             </div>
         </div>
     </div>
@@ -122,15 +124,15 @@
             <ul class="list-group list-group-flush bg-transparent">
                 <li class="list-group-item bg-transparent text-body border-secondary d-flex justify-content-between align-items-center">
                     <span>Renovaciones pendientes</span>
-                    <span class="badge text-warning border border-warning bg-transparent">0</span>
+                    <span class="badge text-warning border border-warning bg-transparent">{{ renovaciones_pendientes }}</span>
                 </li>
                 <li class="list-group-item bg-transparent text-body border-secondary d-flex justify-content-between align-items-center">
                     <span style="font-size: 15px;">Reportes de máquinas</span>
-                    <span class="badge text-danger border border-danger bg-transparent">0</span>
+                    <span class="badge text-danger border border-danger bg-transparent">{{ reportes_maquinas }}</span>
                 </li>
                 <li class="list-group-item bg-transparent text-body border-secondary d-flex justify-content-between align-items-center">
                     <span style="font-size: 15px;">Nuevos registros hoy</span>
-                    <span class="badge text-primary border border-primary bg-transparent">0</span>
+                    <span class="badge text-primary border border-primary bg-transparent">{{ total_nuevos_hoy }}</span>
                 </li>
             </ul>
             <div class="mt-auto pt-3">

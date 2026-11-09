@@ -1,9 +1,10 @@
 from django.urls import path
-from .views import admin_login_view, dashboard_core_view
+from . import views
 
 app_name = 'core'
 
 urlpatterns = [
-    path('', admin_login_view, name='login'),               
-    path('dashboard/', dashboard_core_view, name='dashboard'), 
+    path('', views.login_view, name='login'),
+    path('dashboard/', views.dashboard_view, name='dashboard'),
+    path('logout/', views.logout_view, name='logout'),
 ]
