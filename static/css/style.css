@@ -34,7 +34,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #000000 !important; /* Negro absoluto solo para la vista de login */
+    background-color: #000000 !important; 
 }
 
 .login-card {

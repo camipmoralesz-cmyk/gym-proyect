@@ -19,7 +19,7 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('apps.core.urls')), 
+    path('', include('apps.core.urls')),
     path('catalogo/', include('apps.catalogo.urls')),
-    path('horarios/', include('apps.registro_horas.urls')),
+    path('horarios/', include('apps.registro_horas.urls')), # <--- Esto le dice que use el enrutador de tu app
 ]

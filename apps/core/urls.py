@@ -8,5 +8,5 @@ urlpatterns = [
     path('dashboard/', dashboard_core_view, name='dashboard'),
     path('registro/', registro_view, name='registro'), 
     #Para saber si sirve la base cliente
-    path('vista-cliente/', test_cliente_view, name='test_cliente'), 
+    path('vista-cliente/', test_cliente_view, name='test_cliente'), # <- Ruta de prueba temporal
 ]
