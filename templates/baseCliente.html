@@ -48,6 +48,14 @@
                 <a href="#" class="nav-link">
                     <i class="bi bi-heart-pulse fs-5"></i> Consejos y Rutinas
                 </a>
+
+                <!-- CONDICIONAL DE ROL: Muestra el Panel Admin si el usuario es superusuario o staff -->
+                {% if request.user.is_superuser or request.user.is_staff %}
+                    <hr class="border-secondary my-2">
+                    <a href="{% url 'registro_horas:lista_horarios' %}" class="nav-link text-warning">
+                        <i class="bi bi-speedometer2 fs-5"></i> Panel Admin
+                    </a>
+                {% endif %}
             </div>
         </div>
 
@@ -69,7 +77,8 @@
                     <i class="bi bi-moon-fill" id="theme-icon"></i>
                 </button>
 
-                <span class="text-body small">Hola, Usuario</span>
+                <!-- Nombre dinámico del usuario logueado -->
+                <span class="text-body small">Hola, {{ request.user.username }}</span>
 
                 <!-- Botón de Salir -->
                 <a href="{% url 'core:login' %}" class="btn btn-sm btn-outline-warning border-secondary">
@@ -125,6 +134,6 @@
             }
         }
     });
-</script>
+    </script>
 </body>
 </html>

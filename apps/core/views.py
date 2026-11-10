@@ -9,10 +9,53 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 #from apps.catalogo.models import Maquina
 
+
+def login_view(request):
+    """
+    Vista unificada: sirve tanto para clientes como para administradores.
+    """
+    if request.method == 'POST':
+        usuario = request.POST.get('username')
+        clave = request.POST.get('password')
+        
+        user = authenticate(request, username=usuario, password=clave)
+        
+        if user is not None:
+            login(request, user)
+            
+            # Si es Administrador o Staff, va al Dashboard
+            if user.is_staff or user.is_superuser:
+                return redirect('core:dashboard')
+            else:
+                # Si es un cliente normal, va al portal de horarios
+                return redirect('registro_horas:horarios')
+        else:
+            messages.error(request, 'Usuario o contraseña incorrectos.')
+            
+    return render(request, 'core/login.html')
 #-------------------------------
 # LOGIN DE ADMINISTRADORES
 #-------------------------------
-def admin_login_view(request):
+#-------------------------------
+# LOGIN DE ADMINISTRADORES
+#-------------------------------
+#def admin_login_view(request):
+    if request.method == 'POST':
+        usuario = request.POST.get('username')
+        clave = request.POST.get('password')
+        
+        user = authenticate(request, username=usuario, password=clave)
+        
+        if user is not None:
+            if user.is_staff or user.is_superuser:
+                login(request, user)
+                return redirect('core:dashboard')
+            else:
+                messages.error(request, 'No tienes permisos de administrador.')
+        else:
+            messages.error(request, 'Usuario o contraseña incorrectos.') # <--- Esto es vital
+            
+    return render(request, 'core/login.html')
     """
     Vista para el login unificado del admin.
     """
@@ -24,7 +67,7 @@ def admin_login_view(request):
 #-------------------------------
 # LOGIN DE CLIENTES (Separado del admin)
 #-------------------------------
-def login_cliente_view(request):
+#def login_cliente_view(request):
     """
     Vista exclusiva para que los clientes inicien sesión y entren a su portal.
     """

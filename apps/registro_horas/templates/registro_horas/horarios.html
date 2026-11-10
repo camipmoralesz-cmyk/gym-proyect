@@ -57,7 +57,10 @@
                             <div class="text-secondary" style="font-size: 0.75rem;">12 anotados</div>
                             <div class="text-success fw-bold mb-2" style="font-size: 0.75rem;">3 disponibles</div>
                             <button class="btn btn-warning btn-sm w-100 fw-bold" style="font-size: 0.75rem;">
-                                <i class="bi bi-check-circle"></i> Reservar
+                                <!-- Ejemplo para el bloque de las 09:00 hrs del Lunes -->
+                            <a href="{% url 'registro_horas:crear_reserva' 'lunes_0900' %}" class="bi bi-check-circle">
+                                Reservar
+                            </a>
                             </button>
                         </div>
                         <!-- Bloque 17:00 (Con cupos) -->

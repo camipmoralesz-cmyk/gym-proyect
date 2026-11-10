@@ -8,8 +8,7 @@ urlpatterns = [
     path('', views.horarios_view, name='horarios'),
     path('detalle/<int:pk>/', views.detalle_horario, name='detalle_horario'),
     path('nuevo/', views.crear_horario, name='crear_horario'),
+    path('crear/<str:bloque_id>/', views.realizar_reserva, name='crear_reserva'),
     path('detalle/editar/<int:pk>/', views.editar_horario, name='editar_horario'),
 ]
 
-#esto es para lo del cliente
-#path('', views.lista_horarios, name='horarios'),

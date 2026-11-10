@@ -1,5 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.contrib.auth.decorators import login_required
+from .models import Reserva
 
 @login_required
 
@@ -23,3 +24,13 @@ def horarios_view(request):
     # Aquí puedes pasar datos en el context si los necesitas luego
     return render(request, 'registro_horas/horarios.html')
 
+def realizar_reserva(request, bloque_id):
+    # Aquí recibimos el bloque que el cliente quiere reservar
+    # Guardamos en la base de datos que este usuario reservó este bloque
+    Reserva.objects.get_or_create(
+        usuario=request.user,
+        bloque_horario=bloque_id
+    )
+    return redirect('registro_horas:horarios')
+    
+    

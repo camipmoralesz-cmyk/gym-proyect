@@ -32,8 +32,19 @@
                 <h4 class="fw-bold text-light">Ingresar al Sistema</h4>
             </div>
 
-            <!-- Formulario con POST -->
-            <form method="POST">
+            <!-- Alerta de error limpia y única -->
+            {% if messages %}
+                <div class="alert alert-danger mb-3 py-2 text-center" role="alert">
+                    {% for message in messages %}
+                        {% if forloop.first %}
+                            <small class="d-block">{{ message }}</small>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <!-- Formulario único apuntando a la ruta unificada -->
+            <form method="POST" action="{% url 'core:login' %}">
                 {% csrf_token %}
                 <div class="mb-3">
                     <label class="form-label text-secondary small">Ingrese su nombre de usuario</label>
