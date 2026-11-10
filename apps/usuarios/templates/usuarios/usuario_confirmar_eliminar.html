@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container py-4" style="max-width: 560px;">
+    <div class="card border-danger">
+        <div class="card-header bg-danger text-white">Confirmar eliminación</div>
+        <div class="card-body">
+            <p>¿Seguro que deseas eliminar a <strong>{{ usuario.get_full_name }}</strong> ({{ usuario.email }})?</p>
+            <div class="alert alert-warning small">
+                Esta acción es permanente y borra también los datos asociados (pagos,
+                inscripciones y notificaciones si es cliente; máquinas, rutinas, consejos y
+                ofertas si es administrador). Si solo quieres que no pueda ingresar,
+                usa <strong>Desactivar</strong>.
+            </div>
+            <form method="post">
+                {% csrf_token %}
+                <a href="{% url 'usuarios:gestion_usuarios' %}" class="btn btn-outline-secondary">Cancelar</a>
+                <button type="submit" class="btn btn-danger">Sí, eliminar definitivamente</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
