@@ -10,4 +10,5 @@ urlpatterns = [
     
     # Ruta para el catálogo del cliente
     path('', views.catalogo_maquinas_view, name='catalogo_maquinas'),
+    path('gestion/eliminar/<int:pk>/', views.eliminar_maquina, name='eliminar_maquina'),
 ]

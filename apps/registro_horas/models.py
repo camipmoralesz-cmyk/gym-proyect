@@ -26,4 +26,4 @@ class Horario(models.Model):
         return f"{self.diaSemana} ({self.horaInicio} - {self.horaFin})"
 
     class Meta:
-        db_table = 'horario'  # <--- Esto le indica a Django que use exactamente la tabla 'horario' de tu BD
+        db_table = 'horario'  # Vincula exactamente con la tabla real de la base de datos

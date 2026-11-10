@@ -10,10 +10,14 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.1/ref/settings/
 """
 import os
+import pymysql
+from dotenv import load_dotenv
+
 from pathlib import Path
 import pymysql
 from dotenv import load_dotenv
 
+#AGREGADO PARA FUNCIONALIDAD DE LA BASE DE DATOS
 load_dotenv()
 pymysql.install_as_MySQLdb()
 
@@ -136,9 +140,11 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-#LOGIN_URL = 'usuarios:login'
-#LOGIN_REDIRECT_URL = ''
-#LOGOUT_REDIRECT_URL = 'core:inicio'
+
+LOGIN_URL = 'usuarios:login'
+LOGIN_REDIRECT_URL = 'usuarios:gestion_usuarios'
+LOGOUT_REDIRECT_URL = 'usuarios:login'
+
 
 
 # Email
