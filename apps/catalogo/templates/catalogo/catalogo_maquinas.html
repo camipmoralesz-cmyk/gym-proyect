@@ -20,7 +20,7 @@
     <!-- Contenedor principal estilo admin -->
     <div class="card bg-body border-secondary p-4 shadow-sm">
         
-        <!-- Filtros rápidos -->
+        <!-- Filtros rápidos (estáticos por ahora como pediste) -->
         <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom border-secondary flex-wrap gap-2">
             <div class="btn-group" role="group">
                 <button type="button" class="btn btn-outline-warning btn-sm active">Todas</button>
@@ -31,7 +31,7 @@
             <span class="text-info small"><i class="bi bi-info-circle"></i> Consulta la disponibilidad antes de tu sesión de entrenamiento.</span>
         </div>
 
-        <!-- Grilla de Tarjetas -->
+        <!-- Grilla de Tarjetas dinámicas desde la BD -->
         <div class="row g-3">
             {% for maquina in maquinas %}
             <div class="col-md-4 mb-3">
@@ -44,11 +44,13 @@
                     <div class="card-body d-flex flex-column justify-content-between">
                         <div>
                             <div class="d-flex justify-content-between align-items-center mb-2">
-                                <span class="badge bg-secondary text-warning" style="font-size: 0.75rem;">{{ maquina.categoria }}</span>
-                                {% if maquina.estado == 'Disponible' %}
-                                    <span class="text-success fw-bold" style="font-size: 0.75rem;"><i class="bi bi-check-circle"></i> {{ maquina.estado }}</span>
+                                <span class="badge bg-secondary text-warning" style="font-size: 0.75rem;">Equipo Oficial</span>
+                                
+                                <!-- Validamos el estado booleano de la base de datos -->
+                                {% if maquina.estadoDisponible %}
+                                    <span class="text-success fw-bold" style="font-size: 0.75rem;"><i class="bi bi-check-circle"></i> Disponible</span>
                                 {% else %}
-                                    <span class="text-danger fw-bold" style="font-size: 0.75rem;"><i class="bi bi-exclamation-circle"></i> {{ maquina.estado }}</span>
+                                    <span class="text-danger fw-bold" style="font-size: 0.75rem;"><i class="bi bi-exclamation-circle"></i> En Mantención</span>
                                 {% endif %}
                             </div>
                             <h5 class="fw-bold text-warning mb-2">{{ maquina.nombre }}</h5>
@@ -60,6 +62,10 @@
                         </button>
                     </div>
                 </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center text-secondary py-5">
+                <p>No hay máquinas registradas en el catálogo actualmente.</p>
             </div>
             {% endfor %}
         </div>

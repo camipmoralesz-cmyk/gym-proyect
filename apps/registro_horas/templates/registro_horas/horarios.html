@@ -11,24 +11,24 @@
             <h2 class="fw-bold text-body m-0">Inscripciones y Horarios</h2>
             <p class="text-secondary small m-0">Consulta la afluencia semanal y asegura tu lugar en el gimnasio.</p>
         </div>
-        <!-- Fecha destacada idéntica al admin -->
+        <!-- Fecha dinámica sincronizada con el inicio de la semana -->
         <div class="text-warning fw-bold fs-5">
-            Semana del lunes 6 de abril
+            Semana del {{ start_of_week|date:"l j \d\e F" }}
         </div>
     </div>
 
-    <!-- Contenedor principal con fondo negro y borde gris (Igual al panel admin) -->
+    <!-- Contenedor principal -->
     <div class="card bg-body border-secondary p-4 shadow-sm">
         
-        <!-- Controles de navegación de semana -->
+        <!-- Controles de navegación de semana funcionales -->
         <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom border-secondary">
             <div class="btn-group" role="group">
-                <button type="button" class="btn btn-outline-secondary btn-sm text-body">
+                <a href="?fecha={{ prev_week_date }}" class="btn btn-outline-secondary btn-sm text-body">
                     <i class="bi bi-chevron-left"></i> Semana anterior
-                </button>
-                <button type="button" class="btn btn-outline-secondary btn-sm text-body">
+                </a>
+                <a href="?fecha={{ next_week_date }}" class="btn btn-outline-secondary btn-sm text-body">
                     Semana siguiente <i class="bi bi-chevron-right"></i>
-                </button>
+                </a>
             </div>
             <span class="text-info small"><i class="bi bi-info-circle"></i> Haz clic en "Reservar" para asegurar tu cupo en el bloque.</span>
         </div>
@@ -36,148 +36,214 @@
         <!-- Grilla de Días de la Semana -->
         <div class="row g-3">
             
-            <!-- LUNES 6 -->
+            <!-- MACRO PLANTILLA PARA LOS DÍAS (Se repite para las 7 columnas) -->
+            
+            <!-- LUNES -->
             <div class="col-md">
                 <div class="card bg-body border-secondary text-light h-100">
                     <div class="card-header bg-body text-center border-secondary py-2">
-                        <span class="fw-bold text-body d-block">Lunes 6</span>
-                        <small class="text-secondary" style="font-size: 0.75rem;">Reservas: 42</small>
+                        <span class="fw-bold text-body d-block">Lunes {{ lunes_fecha|date:"j" }}</span>
+                        <small class="text-secondary" style="font-size: 0.75rem;">{{ lunes_fecha|date:"M" }}</small>
                     </div>
                     <div class="card-body p-2 d-flex flex-column gap-2">
-                        <!-- Bloque 07:00 (Lleno) -->
+                        {% for h in lunes %}
                         <div class="p-2 rounded bg-body border border-secondary">
-                            <span class="fw-bold text-warning small">07:00 hrs</span>
-                            <div class="text-secondary" style="font-size: 0.75rem;">15 anotados</div>
-                            <div class="text-warning fw-bold mb-2" style="font-size: 0.75rem;">0 disponibles</div>
-                            <button class="btn btn-outline-secondary btn-sm w-100 disabled" style="font-size: 0.75rem;" disabled>Sin Cupos</button>
+                            <span class="fw-bold text-warning small">{{ h.horaInicio|time:"H:i" }} hrs</span>
+                            <div class="text-secondary" style="font-size: 0.75rem;">{{ h.cuposOcupados }} anotados</div>
+                            
+                            {% if h.cupos_disponibles > 0 %}
+                                <div class="text-success fw-bold mb-2" style="font-size: 0.75rem;">{{ h.cupos_disponibles }} disponibles</div>
+                                <a href="{% url 'registro_horas:realizar_reserva' h.idHorario %}" class="btn btn-warning btn-sm w-100 fw-bold text-decoration-none" style="font-size: 0.75rem;">
+                                    <i class="bi bi-check-circle"></i> Reservar
+                                </a>
+                            {% else %}
+                                <div class="text-warning fw-bold mb-2" style="font-size: 0.75rem;">0 disponibles</div>
+                                <button class="btn btn-outline-secondary btn-sm w-100 disabled" style="font-size: 0.75rem;" disabled>Sin Cupos</button>
+                            {% endif %}
                         </div>
-                        <!-- Bloque 09:00 (Con cupos) -->
-                        <div class="p-2 rounded bg-body border border-secondary">
-                            <span class="fw-bold text-warning small">09:00 hrs</span>
-                            <div class="text-secondary" style="font-size: 0.75rem;">12 anotados</div>
-                            <div class="text-success fw-bold mb-2" style="font-size: 0.75rem;">3 disponibles</div>
-                            <button class="btn btn-warning btn-sm w-100 fw-bold" style="font-size: 0.75rem;">
-                                <!-- Ejemplo para el bloque de las 09:00 hrs del Lunes -->
-                            <a href="{% url 'registro_horas:crear_reserva' 'lunes_0900' %}" class="bi bi-check-circle">
-                                Reservar
-                            </a>
-                            </button>
-                        </div>
-                        <!-- Bloque 17:00 (Con cupos) -->
-                        <div class="p-2 rounded bg-body border border-secondary">
-                            <span class="fw-bold text-warning small">17:00 hrs</span>
-                            <div class="text-secondary" style="font-size: 0.75rem;">3 anotados</div>
-                            <div class="text-success fw-bold mb-2" style="font-size: 0.75rem;">15 disponibles</div>
-                            <button class="btn btn-warning btn-sm w-100 fw-bold" style="font-size: 0.75rem;">
-                                <i class="bi bi-check-circle"></i> Reservar
-                            </button>
-                        </div>
+                        {% empty %}
+                        <div class="text-center text-secondary py-3" style="font-size: 0.75rem;">Sin bloques activos</div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
 
-            <!-- MARTES 7 -->
+            <!-- MARTES -->
             <div class="col-md">
                 <div class="card bg-body border-secondary text-light h-100">
                     <div class="card-header bg-body text-center border-secondary py-2">
-                        <span class="fw-bold text-body d-block">Martes 7</span>
-                        <small class="text-secondary" style="font-size: 0.75rem;">Reservas: 38</small>
+                        <span class="fw-bold text-body d-block">Martes {{ martes_fecha|date:"j" }}</span>
+                        <small class="text-secondary" style="font-size: 0.75rem;">{{ martes_fecha|date:"M" }}</small>
                     </div>
                     <div class="card-body p-2 d-flex flex-column gap-2">
+                        {% for h in martes %}
                         <div class="p-2 rounded bg-body border border-secondary">
-                            <span class="fw-bold text-warning small">07:00 hrs</span>
-                            <div class="text-secondary" style="font-size: 0.75rem;">15 anotados</div>
-                            <div class="text-warning fw-bold mb-2" style="font-size: 0.75rem;">0 disponibles</div>
-                            <button class="btn btn-outline-secondary btn-sm w-100 disabled" style="font-size: 0.75rem;" disabled>Sin Cupos</button>
+                            <span class="fw-bold text-warning small">{{ h.horaInicio|time:"H:i" }} hrs</span>
+                            <div class="text-secondary" style="font-size: 0.75rem;">{{ h.cuposOcupados }} anotados</div>
+                            
+                            {% if h.cupos_disponibles > 0 %}
+                                <div class="text-success fw-bold mb-2" style="font-size: 0.75rem;">{{ h.cupos_disponibles }} disponibles</div>
+                                <a href="{% url 'registro_horas:realizar_reserva' h.idHorario %}" class="btn btn-warning btn-sm w-100 fw-bold text-decoration-none" style="font-size: 0.75rem;">
+                                    <i class="bi bi-check-circle"></i> Reservar
+                                </a>
+                            {% else %}
+                                <div class="text-warning fw-bold mb-2" style="font-size: 0.75rem;">0 disponibles</div>
+                                <button class="btn btn-outline-secondary btn-sm w-100 disabled" style="font-size: 0.75rem;" disabled>Sin Cupos</button>
+                            {% endif %}
                         </div>
-                        <div class="p-2 rounded bg-body border border-secondary">
-                            <span class="fw-bold text-warning small">09:00 hrs</span>
-                            <div class="text-secondary" style="font-size: 0.75rem;">10 anotados</div>
-                            <div class="text-success fw-bold mb-2" style="font-size: 0.75rem;">5 disponibles</div>
-                            <button class="btn btn-warning btn-sm w-100 fw-bold" style="font-size: 0.75rem;"><i class="bi bi-check-circle"></i> Reservar</button>
-                        </div>
+                        {% empty %}
+                        <div class="text-center text-secondary py-3" style="font-size: 0.75rem;">Sin bloques activos</div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
 
-            <!-- MIÉRCOLES 8 -->
+            <!-- MIÉRCOLES -->
             <div class="col-md">
                 <div class="card bg-body border-secondary text-light h-100">
                     <div class="card-header bg-body text-center border-secondary py-2">
-                        <span class="fw-bold text-body d-block">Miércoles 8</span>
-                        <small class="text-secondary" style="font-size: 0.75rem;">Reservas: 34</small>
+                        <span class="fw-bold text-body d-block">Miércoles {{ miercoles_fecha|date:"j" }}</span>
+                        <small class="text-secondary" style="font-size: 0.75rem;">{{ miercoles_fecha|date:"M" }}</small>
                     </div>
                     <div class="card-body p-2 d-flex flex-column gap-2">
+                        {% for h in miercoles %}
                         <div class="p-2 rounded bg-body border border-secondary">
-                            <span class="fw-bold text-warning small">07:00 hrs</span>
-                            <div class="text-secondary" style="font-size: 0.75rem;">15 anotados</div>
-                            <div class="text-warning fw-bold mb-2" style="font-size: 0.75rem;">0 disponibles</div>
-                            <button class="btn btn-outline-secondary btn-sm w-100 disabled" style="font-size: 0.75rem;" disabled>Sin Cupos</button>
+                            <span class="fw-bold text-warning small">{{ h.horaInicio|time:"H:i" }} hrs</span>
+                            <div class="text-secondary" style="font-size: 0.75rem;">{{ h.cuposOcupados }} anotados</div>
+                            
+                            {% if h.cupos_disponibles > 0 %}
+                                <div class="text-success fw-bold mb-2" style="font-size: 0.75rem;">{{ h.cupos_disponibles }} disponibles</div>
+                                <a href="{% url 'registro_horas:realizar_reserva' h.idHorario %}" class="btn btn-warning btn-sm w-100 fw-bold text-decoration-none" style="font-size: 0.75rem;">
+                                    <i class="bi bi-check-circle"></i> Reservar
+                                </a>
+                            {% else %}
+                                <div class="text-warning fw-bold mb-2" style="font-size: 0.75rem;">0 disponibles</div>
+                                <button class="btn btn-outline-secondary btn-sm w-100 disabled" style="font-size: 0.75rem;" disabled>Sin Cupos</button>
+                            {% endif %}
                         </div>
-                        <div class="p-2 rounded bg-body border border-secondary">
-                            <span class="fw-bold text-warning small">09:00 hrs</span>
-                            <div class="text-secondary" style="font-size: 0.75rem;">12 anotados</div>
-                            <div class="text-success fw-bold mb-2" style="font-size: 0.75rem;">3 disponibles</div>
-                            <button class="btn btn-warning btn-sm w-100 fw-bold" style="font-size: 0.75rem;"><i class="bi bi-check-circle"></i> Reservar</button>
-                        </div>
+                        {% empty %}
+                        <div class="text-center text-secondary py-3" style="font-size: 0.75rem;">Sin bloques activos</div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
 
-            <!-- JUEVES 9 -->
+            <!-- JUEVES -->
             <div class="col-md">
                 <div class="card bg-body border-secondary text-light h-100">
                     <div class="card-header bg-body text-center border-secondary py-2">
-                        <span class="fw-bold text-body d-block">Jueves 9</span>
-                        <small class="text-secondary" style="font-size: 0.75rem;">Reservas: 29</small>
+                        <span class="fw-bold text-body d-block">Jueves {{ jueves_fecha|date:"j" }}</span>
+                        <small class="text-secondary" style="font-size: 0.75rem;">{{ jueves_fecha|date:"M" }}</small>
                     </div>
                     <div class="card-body p-2 d-flex flex-column gap-2">
+                        {% for h in jueves %}
                         <div class="p-2 rounded bg-body border border-secondary">
-                            <span class="fw-bold text-warning small">07:00 hrs</span>
-                            <div class="text-secondary" style="font-size: 0.75rem;">15 anotados</div>
-                            <div class="text-warning fw-bold mb-2" style="font-size: 0.75rem;">0 disponibles</div>
-                            <button class="btn btn-outline-secondary btn-sm w-100 disabled" style="font-size: 0.75rem;" disabled>Sin Cupos</button>
+                            <span class="fw-bold text-warning small">{{ h.horaInicio|time:"H:i" }} hrs</span>
+                            <div class="text-secondary" style="font-size: 0.75rem;">{{ h.cuposOcupados }} anotados</div>
+                            
+                            {% if h.cupos_disponibles > 0 %}
+                                <div class="text-success fw-bold mb-2" style="font-size: 0.75rem;">{{ h.cupos_disponibles }} disponibles</div>
+                                <a href="{% url 'registro_horas:realizar_reserva' h.idHorario %}" class="btn btn-warning btn-sm w-100 fw-bold text-decoration-none" style="font-size: 0.75rem;">
+                                    <i class="bi bi-check-circle"></i> Reservar
+                                </a>
+                            {% else %}
+                                <div class="text-warning fw-bold mb-2" style="font-size: 0.75rem;">0 disponibles</div>
+                                <button class="btn btn-outline-secondary btn-sm w-100 disabled" style="font-size: 0.75rem;" disabled>Sin Cupos</button>
+                            {% endif %}
                         </div>
+                        {% empty %}
+                        <div class="text-center text-secondary py-3" style="font-size: 0.75rem;">Sin bloques activos</div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
 
-            <!-- VIERNES 10 -->
+            <!-- VIERNES -->
             <div class="col-md">
                 <div class="card bg-body border-secondary text-light h-100">
                     <div class="card-header bg-body text-center border-secondary py-2">
-                        <span class="fw-bold text-body d-block">Viernes 10</span>
-                        <small class="text-secondary" style="font-size: 0.75rem;">Reservas: 25</small>
+                        <span class="fw-bold text-body d-block">Viernes {{ viernes_fecha|date:"j" }}</span>
+                        <small class="text-secondary" style="font-size: 0.75rem;">{{ viernes_fecha|date:"M" }}</small>
                     </div>
-                    <div class="card-body p-2 text-center text-secondary py-4">
-                        <small>Sin bloques activos</small>
+                    <div class="card-body p-2 d-flex flex-column gap-2">
+                        {% for h in viernes %}
+                        <div class="p-2 rounded bg-body border border-secondary">
+                            <span class="fw-bold text-warning small">{{ h.horaInicio|time:"H:i" }} hrs</span>
+                            <div class="text-secondary" style="font-size: 0.75rem;">{{ h.cuposOcupados }} anotados</div>
+                            
+                            {% if h.cupos_disponibles > 0 %}
+                                <div class="text-success fw-bold mb-2" style="font-size: 0.75rem;">{{ h.cupos_disponibles }} disponibles</div>
+                                <a href="{% url 'registro_horas:realizar_reserva' h.idHorario %}" class="btn btn-warning btn-sm w-100 fw-bold text-decoration-none" style="font-size: 0.75rem;">
+                                    <i class="bi bi-check-circle"></i> Reservar
+                                </a>
+                            {% else %}
+                                <div class="text-warning fw-bold mb-2" style="font-size: 0.75rem;">0 disponibles</div>
+                                <button class="btn btn-outline-secondary btn-sm w-100 disabled" style="font-size: 0.75rem;" disabled>Sin Cupos</button>
+                            {% endif %}
+                        </div>
+                        {% empty %}
+                        <div class="text-center text-secondary py-3" style="font-size: 0.75rem;">Sin bloques activos</div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
 
-            <!-- SÁBADO 11 -->
+            <!-- SÁBADO -->
             <div class="col-md">
                 <div class="card bg-body border-secondary text-light h-100">
                     <div class="card-header bg-body text-center border-secondary py-2">
-                        <span class="fw-bold text-body d-block">Sábado 11</span>
-                        <small class="text-secondary" style="font-size: 0.75rem;">Reservas: 18</small>
+                        <span class="fw-bold text-body d-block">Sábado {{ sabado_fecha|date:"j" }}</span>
+                        <small class="text-secondary" style="font-size: 0.75rem;">{{ sabado_fecha|date:"M" }}</small>
                     </div>
-                    <div class="card-body p-2 text-center text-secondary py-4">
-                        <small>Horario reducido</small>
+                    <div class="card-body p-2 d-flex flex-column gap-2">
+                        {% for h in sabado %}
+                        <div class="p-2 rounded bg-body border border-secondary">
+                            <span class="fw-bold text-warning small">{{ h.horaInicio|time:"H:i" }} hrs</span>
+                            <div class="text-secondary" style="font-size: 0.75rem;">{{ h.cuposOcupados }} anotados</div>
+                            
+                            {% if h.cupos_disponibles > 0 %}
+                                <div class="text-success fw-bold mb-2" style="font-size: 0.75rem;">{{ h.cupos_disponibles }} disponibles</div>
+                                <a href="{% url 'registro_horas:realizar_reserva' h.idHorario %}" class="btn btn-warning btn-sm w-100 fw-bold text-decoration-none" style="font-size: 0.75rem;">
+                                    <i class="bi bi-check-circle"></i> Reservar
+                                </a>
+                            {% else %}
+                                <div class="text-warning fw-bold mb-2" style="font-size: 0.75rem;">0 disponibles</div>
+                                <button class="btn btn-outline-secondary btn-sm w-100 disabled" style="font-size: 0.75rem;" disabled>Sin Cupos</button>
+                            {% endif %}
+                        </div>
+                        {% empty %}
+                        <div class="text-center text-secondary py-3" style="font-size: 0.75rem;">Sin bloques activos</div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
 
-            <!-- DOMINGO 12 -->
+            <!-- DOMINGO -->
             <div class="col-md">
-                <div class="card bg-body border-secondary text-light h-100 opacity-50">
+                <div class="card bg-body border-secondary text-light h-100 opacity-75">
                     <div class="card-header bg-body text-center border-secondary py-2">
-                        <span class="fw-bold text-secondary d-block">Domingo 12</span>
-                        <small class="text-secondary" style="font-size: 0.75rem;">Cerrado</small>
+                        <span class="fw-bold text-secondary d-block">Domingo {{ domingo_fecha|date:"j" }}</span>
+                        <small class="text-secondary" style="font-size: 0.75rem;">{{ domingo_fecha|date:"M" }}</small>
                     </div>
-                    <div class="card-body p-2 text-center text-secondary d-flex flex-column justify-content-center align-items-center">
-                        <i class="bi bi-x-circle fs-4 mb-1"></i>
-                        <small>Sin cupos</small>
+                    <div class="card-body p-2 d-flex flex-column gap-2">
+                        {% for h in domingo %}
+                        <div class="p-2 rounded bg-body border border-secondary">
+                            <span class="fw-bold text-warning small">{{ h.horaInicio|time:"H:i" }} hrs</span>
+                            <div class="text-secondary" style="font-size: 0.75rem;">{{ h.cuposOcupados }} anotados</div>
+                            
+                            {% if h.cupos_disponibles > 0 %}
+                                <div class="text-success fw-bold mb-2" style="font-size: 0.75rem;">{{ h.cupos_disponibles }} disponibles</div>
+                                <a href="{% url 'registro_horas:realizar_reserva' h.idHorario %}" class="btn btn-warning btn-sm w-100 fw-bold text-decoration-none" style="font-size: 0.75rem;">
+                                    <i class="bi bi-check-circle"></i> Reservar
+                                </a>
+                            {% else %}
+                                <div class="text-warning fw-bold mb-2" style="font-size: 0.75rem;">0 disponibles</div>
+                                <button class="btn btn-outline-secondary btn-sm w-100 disabled" style="font-size: 0.75rem;" disabled>Sin Cupos</button>
+                            {% endif %}
+                        </div>
+                        {% empty %}
+                        <div class="text-center text-secondary py-3" style="font-size: 0.75rem;">Cerrado / Sin bloques</div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>

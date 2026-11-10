@@ -52,7 +52,7 @@
                 <!-- CONDICIONAL DE ROL: Muestra el Panel Admin si el usuario es superusuario o staff -->
                 {% if request.user.is_superuser or request.user.is_staff %}
                     <hr class="border-secondary my-2">
-                    <a href="{% url 'registro_horas:lista_horarios' %}" class="nav-link text-warning">
+                    <a href="{% url 'core:dashboard' %}" class="nav-link text-warning">
                         <i class="bi bi-speedometer2 fs-5"></i> Panel Admin
                     </a>
                 {% endif %}
