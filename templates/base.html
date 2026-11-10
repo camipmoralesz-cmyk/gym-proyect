@@ -34,21 +34,18 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{% url 'registro_horas:lista_horarios' %}" class="nav-link {% if request.resolver_match.url_name == 'lista_horarios' %}active{% endif %}", style="font-size: 15px;">
-                        <i class="bi bi-clock-history"></i> Inscripciones y Horarios
+                    <a href="{% url 'usuarios:gestion_usuarios' %}" class="nav-link {% if request.resolver_match.url_name == 'gestion_usuarios' %}active{% endif %}">
+                        <i class="bi bi-people-fill"></i> Gestión de Usuarios
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link"><i class="bi bi-people-fill"></i> Gestión de Usuarios</a>
                 </li>
                 <li class="nav-item">
                     <a href="{% url 'catalogo:gestion_maquinas' %}" class="nav-link {% if request.resolver_match.url_name == 'gestion_maquinas' %}active{% endif %}">
                         <i class="bi bi-cpu"></i> Catálogo de Máquinas
-                    </a>
-                </li>
+                    </a>  
                 <li class="nav-item">
                     <a href="#" class="nav-link"><i class="bi bi-activity"></i> Gestión de Rutinas</a>
-                </li>
+               
                 <li class="nav-item">
                     <a href="#" class="nav-link"><i class="bi bi-basket2-fill"></i> Consejos Alimenticios</a>
                 </li>

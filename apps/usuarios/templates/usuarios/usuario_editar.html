@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-4" style="max-width: 600px;">
+    <h2 class="h4 fw-bold mb-4">{{ titulo_accion }}</h2>
+
+    <form method="post" novalidate>
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+            <div class="alert alert-danger py-2 small">{{ form.non_field_errors }}</div>
+        {% endif %}
+
+        <!-- Recorre todos los campos del form (nombre, correo, RUT, teléfono y,
+             si es administrador, nivelPermiso). Los estilos vienen de forms.py. -->
+        {% for field in form %}
+        <div class="mb-3">
+            <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+            {{ field }}
+            {% if field.errors %}<div class="text-danger small mt-1">{{ field.errors }}</div>{% endif %}
+        </div>
+        {% endfor %}
+
+        <div class="d-flex justify-content-end gap-2">
+            <a href="{% url 'usuarios:gestion_usuarios' %}" class="btn btn-outline-secondary">Cancelar</a>
+            <button type="submit" class="btn btn-warning-retro">{{ boton_texto }}</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
