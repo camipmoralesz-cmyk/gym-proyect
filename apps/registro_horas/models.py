@@ -1,24 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-<<<<<<< HEAD
-class Horario(models.Model):
-    idHorario = models.AutoField(primary_key=True)
-    diaSemana = models.CharField(max_length=20)
-    horaInicio = models.TimeField()
-    horaFin = models.TimeField()
-    capacidadMaxima = models.IntegerField()
-    cuposOcupados = models.IntegerField(default=0)
-    fecha = models.DateField(null=True, blank=True)
-
-    @property
-    def cupos_disponibles(self):
-        return self.capacidadMaxima - self.cuposOcupados
-
-    class Meta:
-        managed = False
-        db_table = 'Horario'
-=======
 class Reserva(models.Model):
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
     bloque_horario = models.CharField(max_length=50) # Ejemplo: "Lunes 6 - 09:00 hrs"
@@ -44,5 +26,4 @@ class Horario(models.Model):
         return f"{self.diaSemana} ({self.horaInicio} - {self.horaFin})"
 
     class Meta:
-        db_table = 'horario'  # <--- Esto le indica a Django que use exactamente la tabla 'horario' de tu BD
->>>>>>> ramaJessica
+        db_table = 'horario'  # Vincula exactamente con la tabla real de la base de datos

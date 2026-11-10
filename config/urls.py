@@ -21,16 +21,12 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('apps.core.urls')),
+    path('', include('apps.core.urls')), 
+    path('usuarios/', include('apps.usuarios.urls')),
     path('catalogo/', include('apps.catalogo.urls')),
-<<<<<<< HEAD
     path('horarios/', include('apps.registro_horas.urls')),
 ]
 
-# Habilitar archivos media en entorno de desarrollo
+# Habilitar archivos media en entorno de desarrollo (para las fotos del catálogo)
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-=======
-    path('horarios/', include('apps.registro_horas.urls')), # <--- Esto le dice que use el enrutador de tu app
-]
->>>>>>> ramaJessica

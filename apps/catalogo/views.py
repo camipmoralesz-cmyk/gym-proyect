@@ -19,6 +19,7 @@ def lista_maquinas_admin(request):
     context = {
         'maquinas': maquinas
     }
+    # CORREGIDO: Ahora sí le pasamos el context para que el admin las vea
     return render(request, 'catalogo/catalogo_maquinas_adm.html', context)
 
 #-------------------------------
@@ -55,6 +56,19 @@ def crear_maquina(request):
         return redirect('catalogo:gestion_maquinas')
 
     return render(request, 'catalogo/catalogo_form.html')
+  
+#-------------------------------
+# VISTA DEL CATÁLOGO PARA EL CLIENTE
+#-------------------------------
+def catalogo_maquinas_view(request):
+    # Obtenemos los datos reales de la base de datos para el cliente
+    maquinas = Maquina.objects.all()
+    
+    context = {
+        'maquinas': maquinas
+    }
+    # Renderizamos únicamente la vista del cliente con sus datos
+    return render(request, 'catalogo/catalogo_maquinas.html', context)
 
 #-------------------------------
 # EDITAR MAQUINA
@@ -108,16 +122,3 @@ def eliminar_maquina(request, pk):
             return redirect('catalogo:gestion_maquinas')
             
     return redirect('catalogo:gestion_maquinas')
-
-#-------------------------------
-# VISTA DEL CATÁLOGO PARA EL CLIENTE
-#-------------------------------
-def catalogo_maquinas_view(request):
-    # Reemplazamos la lista estática por los datos reales de la base de datos
-    maquinas = Maquina.objects.all()
-    
-    context = {
-        'maquinas': maquinas
-    }
-    # Respetamos exactamente el return render con el template que ella diseñó
-    return render(request, 'catalogo/catalogo_maquinas.html', context)

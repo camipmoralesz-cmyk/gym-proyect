@@ -4,18 +4,16 @@ from django.shortcuts import render, redirect
 # Herramientas de autenticación y seguridad (control de acceso y verificación de identidad)
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.utils import timezone
 from apps.catalogo.models import Maquina
 
 #-------------------------------
-# LOGIN UNIFICADO
+# LOGIN UNIFICADO (O ADMINISTRATIVO)
 #-------------------------------
 def login_view(request):
-    """
-    Vista unificada: sirve tanto para clientes como para administradores.
-    """
     if request.method == 'POST':
         usuario = request.POST.get('username')
         clave = request.POST.get('password')
@@ -42,7 +40,7 @@ def login_view(request):
 @login_required(login_url='login')
 def dashboard_core_view(request):
     """
-    Vista para el Dashboard del Core administrativo.
+    Vista para el Dashboard del Core administrativo con estadísticas de la BD.
     """
     if not request.user.is_staff and not request.user.is_superuser:
         logout(request)
@@ -92,11 +90,12 @@ def registro_view(request):
     Vista para el formulario de registro de nuevos clientes.
     """
     if request.method == 'POST':
+        # Lógica de registro o redirección
         return redirect('core:login')
     return render(request, 'core/registro.html')
 
 #-------------------------------
-# VISTA CLIENTE
+# VISTA CLIENTE (Temporal o de prueba)
 #-------------------------------
 def test_cliente_view(request):
     """

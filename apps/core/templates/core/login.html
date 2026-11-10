@@ -23,8 +23,6 @@
             <p class="text-secondary">¡Bienvenidos!</p>
         </div>
 
-        
-
         <!-- TARJETA DE INICIO DE SESIÓN -->
         <div class="login-card shadow-lg">
             <div class="text-center mb-4">
@@ -34,15 +32,6 @@
                 <h4 class="fw-bold text-light">Ingresar al Sistema</h4>
             </div>
 
-<<<<<<< HEAD
-            <!-- Mensajes de Error o Alerta -->
-            {% if messages %}
-                <div class="mb-4">
-                    {% for message in messages %}
-                        <div class="bg-red-500/10 border border-red-500 text-red-400 p-3 rounded text-sm text-center" style="color: rgb(211, 16, 16);">
-                            {{ message }}
-                        </div>
-=======
             <!-- Alerta de error limpia y única -->
             {% if messages %}
                 <div class="alert alert-danger mb-3 py-2 text-center" role="alert">
@@ -50,18 +39,12 @@
                         {% if forloop.first %}
                             <small class="d-block">{{ message }}</small>
                         {% endif %}
->>>>>>> ramaJessica
                     {% endfor %}
                 </div>
             {% endif %}
 
-<<<<<<< HEAD
-            <!-- Formulario con POST -->
-            <form method="POST">
-=======
             <!-- Formulario único apuntando a la ruta unificada -->
             <form method="POST" action="{% url 'core:login' %}">
->>>>>>> ramaJessica
                 {% csrf_token %}
                 <div class="mb-3">
                     <label class="form-label text-secondary small">Ingrese su nombre de usuario</label>
