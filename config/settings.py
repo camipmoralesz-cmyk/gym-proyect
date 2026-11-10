@@ -14,6 +14,7 @@ import pymysql
 from dotenv import load_dotenv
 
 from pathlib import Path
+import pymysql
 from dotenv import load_dotenv
 
 #AGREGADO PARA FUNCIONALIDAD DE LA BASE DE DATOS
@@ -84,6 +85,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.1/ref/settings/#databases
  #CONFIGURACION DE LA BASE DE DATOS
+#Control z despues de provar que sirve la pagina
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',

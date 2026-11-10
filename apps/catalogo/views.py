@@ -12,14 +12,15 @@ from .models import Maquina
 from django.core.files.storage import FileSystemStorage
 
 #-------------------------------
-# LISTA DE TODAS MLAS MAQUINAS
+# LISTA DE TODAS LAS MAQUINAS (ADMIN)
 #-------------------------------
 def lista_maquinas_admin(request):
     maquinas = Maquina.objects.all()
     context = {
         'maquinas': maquinas
     }
-    return render(request, 'catalogo/catalogo_maquinas.html', context)
+    # CORREGIDO: Ahora sí le pasamos el context para que el admin las vea
+    return render(request, 'catalogo/catalogo_maquinas_adm.html', context)
 
 #-------------------------------
 # CREAR MAQUINA NUEVA
@@ -55,6 +56,19 @@ def crear_maquina(request):
         return redirect('catalogo:gestion_maquinas')
 
     return render(request, 'catalogo/catalogo_form.html')
+  
+#-------------------------------
+# VISTA DEL CATÁLOGO PARA EL CLIENTE
+#-------------------------------
+def catalogo_maquinas_view(request):
+    # Obtenemos los datos reales de la base de datos para el cliente
+    maquinas = Maquina.objects.all()
+    
+    context = {
+        'maquinas': maquinas
+    }
+    # Renderizamos únicamente la vista del cliente con sus datos
+    return render(request, 'catalogo/catalogo_maquinas.html', context)
 
 #-------------------------------
 # EDITAR MAQUINA

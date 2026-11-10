@@ -18,3 +18,6 @@ class Maquina(models.Model):
 
     class Meta:
         db_table = 'Maquina' # Esto le dice a Django que use la tabla 'Maquina' que ya creaste en MySQL
+
+        def __str__(self):
+        return self.nombre
