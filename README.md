@@ -2,37 +2,36 @@
 
 ## Plataforma web colaborativa desarrollada en Django y MySQL para la administración, supervisión operativa y reserva de espacios en un centro de entrenamiento físico. El sistema permite gestionar perfiles de usuarios, un catálogo interactivo de maquinaria y la planificación/reserva de bloques horarios con aforos controlados.
 
-## Ficha Técnica del Proyecto
+# Ficha Técnica del Proyecto
 
-# Plataforma / Negocio: Fitness Retro (Gimnasio y Centro de Entrenamiento)
+## Plataforma / Negocio: Fitness Retro (Gimnasio y Centro de Entrenamiento)
+## Framework Backend: Django (Python)
+## Base de Datos: MySQL
+## Frontend y Estilos: Bootstrap 5, HTML5, CSS3
+## Entidad de Contexto / Agrupación (ORM): "User" / "Administrador" (Control de roles, permisos y supervisión de recursos)
+## Entidad Principal Gestionable (ORM): "Maquina" / "Horario" (Núcleo central de datos sobre el cual operan las acciones del sistema: CRUD completo)
+## Propósito de la Sesión ("request.session"): Planificador de horarios y gestión de cupos/reservas activas de los clientes en tiempo real.
 
-# Framework Backend: Django (Python)
-# Base de Datos: MySQL
-# Frontend y Estilos: Bootstrap 5, HTML5, CSS3
-# Entidad de Contexto / Agrupación (ORM): "User" / "Administrador" (Control de roles, permisos y supervisión de recursos)
-# Entidad Principal Gestionable (ORM): "Maquina" / "Horario" (Núcleo central de datos sobre el cual operan las acciones del sistema: CRUD completo)
-# Propósito de la Sesión ("request.session"): Planificador de horarios y gestión de cupos/reservas activas de los clientes en tiempo real.
-
-## Integrantes del Equipo
-# Camila Morales 
-# Jessica Pacheco
-# Marian Paraguan
+# Integrantes del Equipo
+## Camila Morales 
+## Jessica Pacheco
+## Marian Paraguan
 
 # Guía de Instalación y Configuración Paso a Paso
 
-# 1. Clonar el Repositorio
+## 1. Clonar el Repositorio
 
-# 2. Crear, Activar e Instalar dependencias del Entorno Virtual:
+## 2. Crear, Activar e Instalar dependencias del Entorno Virtual:
 
-# 3. Configurar la Base de Datos (MySQL): Primero, se debe crear el archivo .env y copiar ahi los datos de la conexión. Segundo, ejecutar pip install pymysql en la terminal. Tercero, ejecutar python manage.py check --database default para verificar que se pudo hacer la conexion. Y cuarto, ejecutar python manage.py migrate para hacer las migraciones
+## 3. Configurar la Base de Datos (MySQL): Primero, se debe crear el archivo .env y copiar ahi los datos de la conexión. Segundo, ejecutar pip install pymysql en la terminal. Tercero, ejecutar python manage.py check --database default para verificar que se pudo hacer la conexion. Y cuarto, ejecutar python manage.py migrate para hacer las migraciones
 
-# 4. Iniciar el Servidor de Desarrollo
+## 4. Iniciar el Servidor de Desarrollo
 
 # Credenciales de Acceso
 
 ## Para acceder al sistema primero debemos crear un super admin, para eso, se debe ejecutar python manage.py createsuperuser. De esta forma al querer iniciar sesión con ese usuario, lo guiará al panel administrativo.
 
-# En cambio, para acceder como cliente, se debe crear un n uevo usuario desde el "admin, colocando /admin en la ruta (http://127.0.0.1:8000/admin/), en donde se inicia con la cuenta de super usuario. Una vez creado el usuario cliente, puede ingresar esas credenciales y lo guiará al panel del cliente.
+## En cambio, para acceder como cliente, se debe crear un n uevo usuario desde el "admin, colocando /admin en la ruta (http://127.0.0.1:8000/admin/), en donde se inicia con la cuenta de super usuario. Una vez creado el usuario cliente, puede ingresar esas credenciales y lo guiará al panel del cliente.
 
 # Bitácora de Uso Técnico y Ético de Inteligencia Artificial
 
