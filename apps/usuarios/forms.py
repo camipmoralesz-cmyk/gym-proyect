@@ -4,15 +4,13 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import Perfil
 
-# --- normalizar_rut() y normalizar_telefono(): déjalas EXACTAMENTE como las tenías ---
 
 def normalizar_rut(valor):
-    limpio = re.sub(r'[^0-9kK]', '', valor).upper()
-    if not (8 <= len(limpio) <= 9):
+    valor = valor.strip()
+    if not re.fullmatch(r'\d{7,8}[0-9kK]', valor):
         return None
-    cuerpo, dv = limpio[:-1], limpio[-1]
-    if not cuerpo.isdigit():
-        return None
+    cuerpo, dv = valor[:-1], valor[-1].upper()
+
     suma, mult = 0, 2
     for d in reversed(cuerpo):
         suma += int(d) * mult
@@ -21,32 +19,33 @@ def normalizar_rut(valor):
     esperado = 'K' if resto == 10 else '0' if resto == 11 else str(resto)
     if dv != esperado:
         return None
+
     return f"{int(cuerpo):,}".replace(',', '.') + f"-{dv}"
 
 
 def normalizar_telefono(valor):
-    digitos = re.sub(r'\D', '', valor)
-    if digitos.startswith('56'):
-        digitos = digitos[2:]
+    digitos = re.sub(r'\D', '', valor)  # deja solo los números
     if len(digitos) != 9 or not digitos.startswith('9'):
         return None
-    return f"+56 9 {digitos[1:5]} {digitos[5:]}"
+    return f"{digitos[0]} {digitos[1:5]} {digitos[5:]}"
 class PerfilCleanMixin:
     """Validaciones clean_() compartidas (RUT, teléfono, correo único)."""
 
-    def clean_rut(self):
-        rut = normalizar_rut(self.cleaned_data.get('rut', ''))
-        if rut is None:
-            raise forms.ValidationError('RUT inválido. Ejemplo: 12.345.678-5')
-        # Único, ignorando al propio usuario cuando se edita
-        if Perfil.objects.filter(rut=rut).exclude(user_id=self.instance.pk).exists():
-            raise forms.ValidationError('Este RUT ya está registrado.')
-        return rut
+def clean_rut(self):
+    rut = normalizar_rut(self.cleaned_data.get('rut', ''))
+    if rut is None:
+        raise forms.ValidationError(
+            'RUT inválido. Escríbelo solo con números, sin puntos ni guion. Ejemplo: 123456785'
+        )
+    # Único, ignorando al propio usuario cuando se edita
+    if Perfil.objects.filter(rut=rut).exclude(user_id=self.instance.pk).exists():
+        raise forms.ValidationError('Este RUT ya está registrado.')
+    return rut
 
     def clean_telefono(self):
         tel = normalizar_telefono(self.cleaned_data.get('telefono', ''))
         if tel is None:
-            raise forms.ValidationError('Celular inválido. Ejemplo: +56 9 8765 4321')
+            raise forms.ValidationError('Celular inválido. Ejemplo: 9 8765 4321')
         return tel
 
     def clean_email(self):
@@ -74,8 +73,8 @@ class RegistroForm(PerfilCleanMixin, UserCreationForm):
     last_name = forms.CharField(label='Apellido', widget=_ctl('Apellido'))
     email = forms.EmailField(label='Correo', widget=forms.EmailInput(
         attrs={'class': 'form-control', 'placeholder': 'ejemplo@correo.cl'}))
-    rut = forms.CharField(label='RUT', widget=_ctl('12.345.678-5'))
-    telefono = forms.CharField(label='Teléfono', widget=_ctl('+56 9 8765 4321'))
+    rut = forms.CharField(label='RUT', widget=_ctl('123456785-9'))
+    telefono = forms.CharField(label='Teléfono', widget=_ctl('9 8765 4321'))
 
     class Meta(UserCreationForm.Meta):
         model = User
@@ -95,9 +94,9 @@ class RegistroForm(PerfilCleanMixin, UserCreationForm):
         return user
 
 
-# ============================================================
+
 # HITO 3: crear desde la gestión (agrega rol)
-# ============================================================
+
 class UsuarioAdminForm(RegistroForm):
     ROLES = [('cliente', 'Cliente'), ('administrador', 'Administrador')]
     PERMISOS = [('', '---------'), ('Acceso Total', 'Acceso Total'),
